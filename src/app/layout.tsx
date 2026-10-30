@@ -6,6 +6,7 @@ const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://miles-for-ritual.vercel.app"),
+  icons: { icon: "/favicon.svg" },
   title: {
     default: "Miles Mattina for Ritual",
     template: "%s | Miles Mattina for Ritual",

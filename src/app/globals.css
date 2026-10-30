@@ -492,3 +492,6 @@ aside[aria-label="Miles Mattina resume viewer"] button, .resume-download { borde
   .why-card.why-card--bridge > span:last-child { font-size: 44px; line-height: 1.03; }
   .why-card.why-card--sincere > span:last-child { font-size: 33px; line-height: 1.03; }
 }
+@media (max-width: 640px) {
+  .project-intro { padding: 25px 25px 135px; }
+}
