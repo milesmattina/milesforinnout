@@ -15,6 +15,6 @@ Production: https://miles-for-ritual.vercel.app
 
 Supabase project provisioning is pending the account’s free-project quota. The site’s portfolio and resume features work without a database; no visitor data is collected while that integration is unconfigured.
 
-The resume viewer renders the original PDF as an accessible, zoomable page preview; the original PDF remains downloadable. Videos pause outside the viewport. Reduced-motion preferences are respected for animations and automatic video playback.
+The resume viewer renders the original PDF as an accessible, zoomable page preview; the original PDF remains downloadable. Videos pause outside the viewport. Reduced-motion preferences are respected for interface animations. Portfolio videos automatically play muted on a loop when visible, without playback controls.
 
 The bottle cap unscrews counterclockwise and lifts off without fading; closing reverses the motion. All portfolio stills and video posters are pre-optimized WebP assets loaded eagerly, while videos defer downloading until they enter the viewport. The website-build timelapse has been removed.

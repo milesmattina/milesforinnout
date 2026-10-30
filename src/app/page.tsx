@@ -464,7 +464,7 @@ function ArtifactMediaFrame({ artifactLabel, media }: ArtifactMediaFrameProps) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   useEffect(() => {
     const video = videoRef.current;
-    if (!video || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (!video) return;
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) void video.play().catch(() => {});
       else video.pause();
@@ -495,8 +495,11 @@ function ArtifactMediaFrame({ artifactLabel, media }: ArtifactMediaFrameProps) {
         <video
         aria-label={media.ariaLabel}
         ref={videoRef}
-        controls={!media.href}
-        className="h-full w-full object-cover"
+        controls={false}
+        disablePictureInPicture
+        disableRemotePlayback
+        tabIndex={-1}
+        className="pointer-events-none h-full w-full object-cover"
         loop
         muted
         playsInline
