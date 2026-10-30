@@ -98,43 +98,6 @@ html {
   text-transform: uppercase;
 }
 
-.timelapse-card-title {
-  display: flex;
-  flex-direction: column;
-  font-size: clamp(1.3rem, 6vw, 2.2rem);
-  font-weight: 900;
-  gap: 0.08em;
-  line-height: 0.9;
-  text-transform: uppercase;
-}
-
-.timelapse-card-note {
-  font-size: clamp(0.92rem, 3.5vw, 1.15rem);
-  line-height: 1.22;
-}
-
-@media (min-width: 420px) {
-  .timelapse-card-title {
-    font-size: clamp(1.72rem, 6vw, 2.55rem);
-  }
-
-  .timelapse-card-note {
-    font-size: 1.08rem;
-    line-height: 1.25;
-  }
-}
-
-@media (min-width: 640px) {
-  .timelapse-card-title {
-    font-size: 2.85rem;
-  }
-
-  .timelapse-card-note {
-    font-size: 1.25rem;
-    line-height: 1.35;
-  }
-}
-
 .buoy-sticker {
   position: absolute;
   z-index: 12;
@@ -176,7 +139,7 @@ html {
 
   .resume-bottle:hover,
   .resume-bottle--open,
-  .resume-bottle--cracking {
+  .resume-bottle--opening {
     transform: translate(-50%, -51%) rotate(-1deg) scale(0.88);
   }
 
@@ -382,11 +345,8 @@ a:focus-visible, button:focus-visible { outline: 3px solid #5674bd; outline-offs
 .resume-bottle { position: absolute; width: 342px; height: 545px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(7deg); border: 0; padding: 0; background: none; transition: transform .45s ease; }
 .resume-bottle__art { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(20px 21px 13px #8c732d24); }
 .resume-bottle__label { font-family: var(--font-dm-sans), Arial, sans-serif; }
-.resume-bottle:hover { transform: translate(-50%, -52%) rotate(3deg); }
+.resume-bottle:hover { transform: translate(-50%, -50%) rotate(7deg); }
 .resume-bottle:focus-visible { outline: 3px solid var(--ritual-navy); border-radius: 120px; outline-offset: 6px; }
-.resume-bottle__cap { transform-origin: 160px 80px; transition: transform .7s cubic-bezier(.22,.65,.2,1), opacity .7s ease; }
-.resume-bottle:hover .resume-bottle__cap { transform: translateY(-6px) rotate(-3deg); }
-.resume-bottle--cracking .resume-bottle__cap, .resume-bottle--open .resume-bottle__cap { transform: translate(20px,-85px) rotate(-24deg); opacity: 0; }
 .resume-bottle--prompt { animation: bottle-nudge .52s ease; }
 .resume-bottle__cta { position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%) rotate(-7deg); color: var(--ritual-navy); white-space: nowrap; font-size: 13px; font-weight: 500; padding: 9px 16px; border-radius: 100px; border: 1px solid #142b6f55; background: #fff9; }
 #why-me, #field-notes, #talk { max-width: 1360px; padding-inline: 5%; scroll-margin-top: 30px; }
@@ -400,8 +360,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #5674bd; outline-offs
 #why-me [class*="pointer-events-none absolute"] { border-width: 1px; border-color: #142b6f30; background: #fff7cc; box-shadow: none; border-radius: 5px; }
 .why-card .font-black { font-weight: 600; letter-spacing: -.035em; }
 .why-card .font-bold { font-weight: 400; }
-.why-card .uppercase:not(.font-mono), .timelapse-card-title { text-transform: none; }
-.timelapse-card-title { font-weight: 600; letter-spacing: -.04em; }
+.why-card .uppercase:not(.font-mono) { text-transform: none; }
 #why-me button { border-width: 1px; box-shadow: none; border-radius: 100px; font-weight: 500; text-transform: none; }
 #why-me video { border-radius: 2px; }
 #why-me .overflow-hidden { box-shadow: none; border-width: 1px; }
@@ -454,7 +413,7 @@ aside[aria-label="Miles Mattina resume viewer"] button, .resume-download { borde
   .hero-copy > div { margin-top: 24px; }
   .ritual-hero::before { width: 620px; height: 620px; top: 400px; right: -250px; }
   .bottle-stage { min-height: 490px; }
-  .resume-bottle, .resume-bottle:hover, .resume-bottle--open, .resume-bottle--cracking { width: 300px; height: 480px; transform: translate(-50%,-50%) rotate(5deg); }
+  .resume-bottle, .resume-bottle:hover, .resume-bottle--open, .resume-bottle--opening { width: 300px; height: 480px; transform: translate(-50%,-50%) rotate(5deg); }
   .resume-bottle--prompt { animation-name: bottle-nudge; }
   #why-me { gap: 35px; }
   #why-me h2 { font-size: 50px; }
@@ -494,4 +453,43 @@ aside[aria-label="Miles Mattina resume viewer"] button, .resume-download { borde
 }
 @media (max-width: 640px) {
   .project-intro { padding: 25px 25px 135px; }
+}
+
+/* The cap turns counterclockwise on its threads, then lifts off; closing reverses that motion. */
+.resume-bottle__cap { transform-origin: 160px 80px; opacity: 1; }
+.resume-bottle__cap-turn { transform-origin: 0 0; }
+.resume-bottle--opening .resume-bottle__cap { animation: cap-unscrew 1100ms ease-in-out both; }
+.resume-bottle--open .resume-bottle__cap { transform: translate(14px, -72px) rotate(-8deg); }
+.resume-bottle--closing .resume-bottle__cap { animation: cap-screw-on 1100ms ease-in-out both; }
+.resume-bottle--opening .resume-bottle__cap-turn { animation: cap-turn-left 1100ms ease-in-out both; }
+.resume-bottle--open .resume-bottle__cap-turn { transform: rotate(-540deg); }
+.resume-bottle--closing .resume-bottle__cap-turn { animation: cap-turn-right 1100ms ease-in-out both; }
+.resume-bottle--opening .resume-bottle__cap-ribs { animation: cap-ribs-left 1100ms ease-in-out both; }
+.resume-bottle--open .resume-bottle__cap-ribs { transform: translateX(25.2px); }
+.resume-bottle--closing .resume-bottle__cap-ribs { animation: cap-ribs-right 1100ms ease-in-out both; }
+@keyframes cap-unscrew {
+  0% { transform: translate(0, 0) rotate(0); }
+  58% { transform: translate(0, -15px) rotate(0); }
+  100% { transform: translate(14px, -72px) rotate(-8deg); }
+}
+@keyframes cap-screw-on {
+  0% { transform: translate(14px, -72px) rotate(-8deg); }
+  42% { transform: translate(0, -15px) rotate(0); }
+  100% { transform: translate(0, 0) rotate(0); }
+}
+@keyframes cap-turn-left {
+  0% { transform: rotate(0); }
+  58%, 100% { transform: rotate(-540deg); }
+}
+@keyframes cap-turn-right {
+  0%, 42% { transform: rotate(-540deg); }
+  100% { transform: rotate(0); }
+}
+@keyframes cap-ribs-left {
+  0% { transform: translateX(0); }
+  58%, 100% { transform: translateX(25.2px); }
+}
+@keyframes cap-ribs-right {
+  0%, 42% { transform: translateX(25.2px); }
+  100% { transform: translateX(0); }
 }

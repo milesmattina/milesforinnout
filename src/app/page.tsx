@@ -20,7 +20,7 @@ type FieldNote = {
   }[];
 };
 
-type ResumeMode = "closed" | "cracking" | "open" | "full" | "minimized";
+type ResumeMode = "closed" | "opening" | "open" | "full" | "minimized" | "closing";
 
 type WhyCard = {
   title: string;
@@ -49,6 +49,7 @@ type ArtifactMedia =
       ariaLabel: string;
       href?: string;
       src: string;
+      poster: string;
       type: "video";
     };
 
@@ -56,24 +57,26 @@ const buoyBirdMedia: ArtifactMedia[] = [
   {
     alt: "Buoy Bird merch booth with an orange bus and shirts",
     objectPosition: "center 72%",
-    src: "/buoy-bird-photo-1.jpg",
+    src: "/portfolio/buoy-bird-photo-1-f2087122.webp",
     type: "image",
   },
   {
     alt: "Clear Lake and Mount Konocti from above at dusk",
     objectPosition: "center",
-    src: "/buoy-bird-photo-2.jpg",
+    src: "/portfolio/buoy-bird-photo-2-289f2e5a.webp",
     type: "image",
   },
   {
     ariaLabel: "Clear Lake community video",
     src: "/clear-lake-context.mp4",
+    poster: "/portfolio/clear-lake-context-dae269b3.webp",
     type: "video",
   },
   {
     ariaLabel: "Buoy Bird Cinema by the Shore reel",
     href: "https://www.instagram.com/p/DNjMhHCSgwV/",
     src: "/buoy-bird-cbts-reel.mp4",
+    poster: "/portfolio/buoy-bird-cbts-reel-8e75ed86.webp",
     type: "video",
   },
 ];
@@ -82,24 +85,26 @@ const konoctiClimbMedia: (ArtifactMedia | undefined)[] = [
   {
     ariaLabel: "Konocti Climb flyover video",
     src: "/konocti-climb-ai-ascent.mp4#t=2",
+    poster: "/portfolio/konocti-climb-ai-ascent-762ca070.webp",
     type: "video",
   },
   {
     ariaLabel: "Konocti Climb race-day operations reel",
     href: "https://www.instagram.com/p/DP1VLnyDi2P/",
     src: "/konocti-climb-reel.mp4",
+    poster: "/portfolio/konocti-climb-reel-ca0ca006.webp",
     type: "video",
   },
   {
     alt: "Konocti Climb horizontal logo from the website footer",
     objectPosition: "center",
-    src: "/konocti-climb-horizontal-card.png",
+    src: "/portfolio/konocti-climb-horizontal-card-5a3c288d.webp",
     type: "image",
   },
   {
     alt: "Konocti Climb homepage hero with Mount Konocti at sunset",
     objectPosition: "center",
-    src: "/konocti-climb-home-cover.png",
+    src: "/portfolio/konocti-climb-home-cover-22e465ed.webp",
     type: "image",
   },
 ];
@@ -108,23 +113,25 @@ const southOfSoberMedia: ArtifactMedia[] = [
   {
     alt: "South of Sober wordmark on a black background",
     objectPosition: "center",
-    src: "/south-of-sober-logo.png",
+    src: "/portfolio/south-of-sober-logo-9db5395f.webp",
     type: "image",
   },
   {
     alt: "South of Sober band members posing with guitars and amplifiers at UCLA",
     objectPosition: "center",
-    src: "/south-of-sober-band.jpeg",
+    src: "/portfolio/south-of-sober-band-f6567d32.webp",
     type: "image",
   },
   {
     ariaLabel: "South of Sober Battle of the Bands performance clip",
     src: "/south-of-sober-botb.mp4",
+    poster: "/portfolio/south-of-sober-botb-f9ac86f7.webp",
     type: "video",
   },
   {
     ariaLabel: "South of Sober Hear You Out performance clip",
     src: "/south-of-sober-hear-you-out.mp4",
+    poster: "/portfolio/south-of-sober-hear-you-out-5e4aca0a.webp",
     type: "video",
   },
 ];
@@ -258,7 +265,7 @@ const fieldNotes: FieldNote[] = [
         detail: "Named the band, built the website, shaped the visual identity, and bought a cargo van for gear.",
       },
     ],
-    links: [],
+    links: [{ label: "SouthofSober.com", href: "https://southofsober.com/" }],
   },
 ];
 
@@ -349,6 +356,7 @@ type ResumeBottleProps = {
   isPrompting: boolean;
   openResume: () => void;
   resumeMode: ResumeMode;
+  onCapMotionEnd: () => void;
 };
 
 function ResumeBottle({
@@ -356,15 +364,17 @@ function ResumeBottle({
   isPrompting,
   openResume,
   resumeMode,
+  onCapMotionEnd,
 }: ResumeBottleProps) {
   return (
     <button
       aria-expanded={isResumeActive}
       aria-label="Open Miles Mattina resume bottle"
+      disabled={resumeMode === "opening" || resumeMode === "closing"}
       className={`resume-bottle ${
-        resumeMode === "cracking" ? "resume-bottle--cracking" : ""
+        resumeMode === "opening" ? "resume-bottle--opening" : resumeMode === "closing" ? "resume-bottle--closing" : ""
       } ${isPrompting && !isResumeActive ? "resume-bottle--prompt" : ""} ${
-        isResumeActive && resumeMode !== "cracking" ? "resume-bottle--open" : ""
+        isResumeActive && resumeMode !== "opening" ? "resume-bottle--open" : ""
       }`}
       onClick={openResume}
       type="button"
@@ -390,6 +400,7 @@ function ResumeBottle({
           <pattern id="beadlets" width="7" height="7" patternUnits="userSpaceOnUse">
             <circle cx="3" cy="3" r="1.5" fill="#fff7cb" opacity=".9" />
           </pattern>
+          <clipPath id="cap-ribs-clip"><rect x="94" y="65" width="132" height="30" rx="3" /></clipPath>
           <clipPath id="bottle-clip"><path d="M79 140Q79 119 99 113L99 82H221V113Q241 119 241 140V441Q241 466 217 469H103Q79 466 79 441Z" /></clipPath>
         </defs>
         <ellipse cx="164" cy="482" rx="102" ry="13" fill="#66550f" opacity=".12" />
@@ -416,10 +427,26 @@ function ResumeBottle({
           <text x="160" y="265" fontSize="18" fontWeight="500">Resume</text>
           <text x="160" y="286" fontSize="7.5" letterSpacing="1.4">THE ESSENTIALS</text>
         </g>
-        <g className="resume-bottle__cap">
+        <g className="resume-bottle__neck" fill="none" stroke="#bba862" strokeOpacity=".65">
+          <ellipse cx="160" cy="83" rx="60" ry="6" fill="#b5a35922" strokeWidth="2" />
+          <path d="M101 90Q160 98 219 90M101 98Q160 106 219 98M101 106Q160 114 219 106" strokeWidth="2" />
+        </g>
+        <g className="resume-bottle__cap" onAnimationEnd={(event) => {
+          if (event.target === event.currentTarget) onCapMotionEnd();
+        }}>
           <rect x="91" y="56" width="138" height="47" rx="8" fill="url(#cap)" stroke="#d2d3cb" />
-          <ellipse cx="160" cy="58" rx="68" ry="7" fill="#fffef7" />
-          {Array.from({length: 32}, (_, i) => <path key={i} d={`M${95 + i * 4.2} 65V94`} stroke="#b8bdb5" strokeOpacity=".22" />)}
+          <g clipPath="url(#cap-ribs-clip)">
+            <g className="resume-bottle__cap-ribs">
+              {Array.from({length: 48}, (_, i) => <path key={i} d={`M${61 + i * 4.2} 65V94`} stroke="#9ba393" strokeOpacity={i % 6 === 0 ? .65 : .3} />)}
+            </g>
+          </g>
+          <ellipse cx="160" cy="58" rx="68" ry="7" fill="#fffef7" stroke="#d2d3cb" strokeWidth=".6" />
+          <g transform="translate(160 58) scale(1 .105)">
+            <g className="resume-bottle__cap-turn">
+              <path d="M-38-32A50 50 0 0 1 47 17" fill="none" stroke="#b1b7a9" strokeWidth="5" />
+              <circle cx="-44" cy="20" r="7" fill="#a3aa98" />
+            </g>
+          </g>
           <path d="M97 99H223" stroke="#c5c6bd" strokeWidth="2" />
         </g>
       </svg>
@@ -453,6 +480,9 @@ function ArtifactMediaFrame({ artifactLabel, media }: ArtifactMediaFrameProps) {
         alt={media.alt}
         className="object-cover"
         fill
+        loading="eager"
+        fetchPriority="high"
+        unoptimized
         sizes="(max-width: 640px) calc(100vw - 4rem), 25vw"
         src={media.src}
         style={{
@@ -460,7 +490,9 @@ function ArtifactMediaFrame({ artifactLabel, media }: ArtifactMediaFrameProps) {
         }}
       />
     ) : (
-      <video
+      <>
+        <link rel="preload" as="image" href={media.poster} fetchPriority="high" />
+        <video
         aria-label={media.ariaLabel}
         ref={videoRef}
         controls={!media.href}
@@ -468,10 +500,12 @@ function ArtifactMediaFrame({ artifactLabel, media }: ArtifactMediaFrameProps) {
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="none"
+        poster={media.poster}
       >
         <source src={media.src} type="video/mp4" />
       </video>
+      </>
     );
 
   if (media.href) {
@@ -504,22 +538,18 @@ export default function Home() {
     useState<CanArrowGeometry | null>(null);
   const canPromptTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const cardSlideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const resumeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const topSectionRef = useRef<HTMLElement | null>(null);
   const canPromptButtonRef = useRef<HTMLButtonElement | null>(null);
-  const timelapseVideoRef = useRef<HTMLVideoElement | null>(null);
   const currentCard = whyCards[cardIndex];
   const isFinalCard = cardIndex === whyCards.length - 1;
   const isSincereCard = currentCard.tone === "sincere";
   const isBridgeCard = currentCard.tone === "bridge";
-  const isTimelapseCard = cardIndex === 0;
   const isCardSliding = cardSlideDirection !== null;
   const isResumeVisible = resumeMode === "open" || resumeMode === "full";
   const isResumeActive =
-    resumeMode === "cracking" || resumeMode === "open" || resumeMode === "full";
+    resumeMode !== "closed" && resumeMode !== "closing";
 
   useEffect(() => () => {
-    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
     if (cardSlideTimerRef.current) clearTimeout(cardSlideTimerRef.current);
     if (canPromptTimerRef.current) clearTimeout(canPromptTimerRef.current);
   }, []);
@@ -528,117 +558,14 @@ export default function Home() {
     if (!isResumeVisible) return;
     const closeWithEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setResumeMode("closed");
-        document.querySelector<HTMLButtonElement>(".resume-bottle")?.focus();
+        setResumeMode("closing");
+        document.querySelector<HTMLButtonElement>(".resume-bottle")?.focus({ preventScroll: true });
       }
     };
     window.addEventListener("keydown", closeWithEscape);
     return () => window.removeEventListener("keydown", closeWithEscape);
   }, [isResumeVisible]);
 
-  useEffect(() => {
-    if (!isTimelapseCard || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return;
-    }
-
-    const video = timelapseVideoRef.current;
-
-    if (!video) {
-      return;
-    }
-
-    let observer: IntersectionObserver | null = null;
-    let shouldPlay = false;
-
-    const resetVideo = () => {
-      video.pause();
-
-      try {
-        video.currentTime = 0;
-      } catch {
-        // Some browsers reject currentTime changes before metadata is ready.
-      }
-    };
-
-    const playFromBeginning = () => {
-      shouldPlay = true;
-      video.loop = true;
-      video.muted = true;
-
-      try {
-        video.currentTime = 0;
-      } catch {
-        // The canplay listener below will try again once the file is ready.
-      }
-
-      void video.play().catch(() => {
-        if (shouldPlay) {
-          video.load();
-        }
-      });
-    };
-
-    const restartIfVisible = () => {
-      const rect = video.getBoundingClientRect();
-      const isVisible =
-        rect.width > 0 &&
-        rect.height > 0 &&
-        rect.bottom > 0 &&
-        rect.right > 0 &&
-        rect.top < window.innerHeight &&
-        rect.left < window.innerWidth;
-
-      if (isVisible) {
-        playFromBeginning();
-      } else {
-        shouldPlay = false;
-        resetVideo();
-      }
-    };
-
-    const replayWhenReady = () => {
-      if (shouldPlay && video.paused) {
-        playFromBeginning();
-      }
-    };
-
-    video.addEventListener("canplay", replayWhenReady);
-    video.addEventListener("loadedmetadata", replayWhenReady);
-
-    if (typeof IntersectionObserver === "undefined") {
-      restartIfVisible();
-      window.addEventListener("scroll", restartIfVisible, { passive: true });
-      window.addEventListener("resize", restartIfVisible);
-    } else {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0) {
-            playFromBeginning();
-          } else {
-            shouldPlay = false;
-            resetVideo();
-          }
-        },
-        {
-          threshold: [0, 0.01, 0.25, 0.5, 1],
-        },
-      );
-
-      observer.observe(video);
-    }
-
-    requestAnimationFrame(restartIfVisible);
-
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener("scroll", restartIfVisible);
-      window.removeEventListener("resize", restartIfVisible);
-      video.removeEventListener("canplay", replayWhenReady);
-      video.removeEventListener("loadedmetadata", replayWhenReady);
-      shouldPlay = false;
-      resetVideo();
-    };
-  }, [isTimelapseCard]);
 
   useEffect(() => {
     if (canPromptLevel !== 2) {
@@ -755,21 +682,13 @@ export default function Home() {
   }
 
   function openResume() {
-    if (isResumeVisible || resumeMode === "cracking") {
-      return;
-    }
-
+    if (isResumeVisible || resumeMode === "opening" || resumeMode === "closing") return;
     setCanPromptLevel(0);
+    setResumeMode(resumeMode === "minimized" ? "open" : "opening");
+  }
 
-    if (resumeTimerRef.current) {
-      clearTimeout(resumeTimerRef.current);
-    }
-
-    setResumeMode("cracking");
-    resumeTimerRef.current = setTimeout(() => {
-      setResumeMode("open");
-      resumeTimerRef.current = null;
-    }, 700);
+  function finishCapMotion() {
+    setResumeMode((mode) => mode === "opening" ? "open" : mode === "closing" ? "closed" : mode);
   }
 
   function scrollToWork() {
@@ -909,6 +828,7 @@ export default function Home() {
             isPrompting={isCanPrompting}
             openResume={openResume}
             resumeMode={resumeMode}
+            onCapMotionEnd={finishCapMotion}
           />
         </div>
       </section>
@@ -936,11 +856,7 @@ export default function Home() {
         </div>
 
         <div
-          className={`relative ${
-            isTimelapseCard && !isWhyStackComplete
-              ? "min-h-[595px] sm:min-h-[570px]"
-              : "min-h-[470px]"
-          }`}
+          className="relative min-h-[470px]"
         >
           {isWhyStackComplete ? (
             <div className="absolute inset-x-0 top-0 mx-auto flex h-80 w-[calc(100%-1.25rem)] max-w-xl flex-col justify-center gap-8 border-4 border-[var(--ritual-navy)] bg-[var(--ritual-yellow)] p-8 text-[var(--ritual-navy)] shadow-[10px_10px_0_var(--ritual-accent)] sm:w-full sm:shadow-[14px_14px_0_var(--ritual-accent)]">
@@ -961,9 +877,7 @@ export default function Home() {
                 .slice(cardIndex + 1, cardIndex + 4)
                 .map((card, offset) => (
                   <div
-                    className={`pointer-events-none absolute inset-x-0 mx-auto w-[calc(100%-1.25rem)] max-w-xl border-4 border-[var(--ritual-navy)] bg-white shadow-[8px_8px_0_rgba(21,63,143,0.2)] sm:w-full sm:shadow-[10px_10px_0_rgba(21,63,143,0.2)] ${
-                      isTimelapseCard ? "h-[465px] sm:h-[450px]" : "h-80"
-                    }`}
+                    className={`pointer-events-none absolute inset-x-0 mx-auto w-[calc(100%-1.25rem)] max-w-xl border-4 border-[var(--ritual-navy)] bg-white shadow-[8px_8px_0_rgba(21,63,143,0.2)] sm:w-full sm:shadow-[10px_10px_0_rgba(21,63,143,0.2)] h-80`}
                     key={card.title}
                     style={{
                       top: `${24 + offset * 16}px`,
@@ -976,9 +890,7 @@ export default function Home() {
                 ))}
               <div
                 aria-live="polite"
-                className={`why-card ${isBridgeCard ? "why-card--bridge" : isSincereCard ? "why-card--sincere" : ""} absolute inset-x-0 top-0 z-10 mx-auto flex w-[calc(100%-1.25rem)] max-w-xl border-4 border-[var(--ritual-navy)] text-left shadow-[10px_10px_0_var(--ritual-accent)] transition hover:-translate-y-1 sm:w-full sm:shadow-[14px_14px_0_var(--ritual-accent)] ${
-                  isTimelapseCard ? "h-[465px] sm:h-[450px]" : "h-80"
-                } ${
+                className={`why-card ${isBridgeCard ? "why-card--bridge" : isSincereCard ? "why-card--sincere" : ""} absolute inset-x-0 top-0 z-10 mx-auto flex w-[calc(100%-1.25rem)] max-w-xl border-4 border-[var(--ritual-navy)] text-left shadow-[10px_10px_0_var(--ritual-accent)] transition hover:-translate-y-1 sm:w-full sm:shadow-[14px_14px_0_var(--ritual-accent)] h-80 ${
                   cardSlideDirection === "next" ? "why-card--exit-next" : ""
                 } ${
                   cardSlideDirection === "prev" ? "why-card--exit-prev" : ""
@@ -995,39 +907,6 @@ export default function Home() {
                     card {cardIndex + 1} / {whyCards.length}
                   </span>
                 )}
-                {isTimelapseCard ? (
-                  <div className="grid flex-1 grid-cols-[minmax(0,1fr)_96px] items-center gap-3 min-[420px]:grid-cols-[minmax(0,1fr)_120px] sm:grid-cols-[minmax(0,1fr)_154px] sm:gap-5">
-                    <div className="flex flex-col gap-4">
-                      <span className="timelapse-card-title text-[var(--ink)]">
-                        <span>I BUILT YOU</span>
-                        <span>THIS WEBSITE.</span>
-                      </span>
-                      {currentCard.note ? (
-                        <span className="timelapse-card-note max-w-xs font-bold">
-                          {currentCard.note}
-                        </span>
-                      ) : null}
-                    </div>
-                    <div className="justify-self-end">
-                      <div className="overflow-hidden border-4 border-[var(--ritual-navy)] bg-black shadow-[6px_6px_0_var(--ritual-accent)]">
-                        <video
-                          aria-label="Website build timelapse"
-                          className="aspect-[9/16] h-[218px] w-full object-cover min-[420px]:h-[250px] sm:h-[286px]"
-                          loop
-                          muted
-                          playsInline
-                          preload="metadata"
-                          ref={timelapseVideoRef}
-                        >
-                          <source src="/website-timelapse.mp4" type="video/mp4" />
-                        </video>
-                      </div>
-                      <p className="mt-2 max-w-[96px] font-mono text-[9px] font-black uppercase leading-[1.15] tracking-[0.1em] text-[var(--ritual-accent)] min-[420px]:max-w-[120px] sm:max-w-[154px] sm:text-[10px]">
-                        A time lapse from the original portfolio build
-                      </p>
-                    </div>
-                  </div>
-                ) : (
                   <>
                     <span
                       className={`[overflow-wrap:anywhere] font-black uppercase leading-[0.9] ${
@@ -1051,12 +930,9 @@ export default function Home() {
                       </span>
                     ) : null}
                   </>
-                )}
               </div>
               <div
-                className={`absolute inset-x-0 z-20 mx-auto flex w-[calc(100%-1.25rem)] max-w-xl items-center justify-between gap-3 sm:w-full ${
-                  isTimelapseCard ? "top-[493px] sm:top-[478px]" : "top-[348px]"
-                }`}
+                className={`absolute inset-x-0 z-20 mx-auto flex w-[calc(100%-1.25rem)] max-w-xl items-center justify-between gap-3 sm:w-full top-[348px]`}
               >
                 <button
                   aria-label="Previous reason"
@@ -1157,9 +1033,11 @@ export default function Home() {
                   <Image
                     alt=""
                     aria-hidden="true"
+                    loading="eager"
+                    unoptimized
                     className="buoy-sticker buoy-sticker--bird"
                     height={844}
-                    src="/buoy-bird-sticker.png"
+                    src="/portfolio/buoy-bird-sticker-b4176e37.webp"
                     width={780}
                   />
                 ) : null}
@@ -1167,9 +1045,11 @@ export default function Home() {
                   <Image
                     alt=""
                     aria-hidden="true"
+                    loading="eager"
+                    unoptimized
                     className="buoy-sticker konocti-climb-sticker"
                     height={750}
-                    src="/konocti-climb-sticker.png"
+                    src="/portfolio/konocti-climb-sticker-e69b00a8.webp"
                     width={750}
                   />
                 ) : null}
@@ -1177,9 +1057,11 @@ export default function Home() {
                   <Image
                     alt=""
                     aria-hidden="true"
+                    loading="eager"
+                    unoptimized
                     className="buoy-sticker south-of-sober-sticker"
                     height={2000}
-                    src="/south-of-sober-sticker.png"
+                    src="/portfolio/south-of-sober-sticker-a017d3fe.webp"
                     width={2000}
                   />
                 ) : null}
@@ -1313,7 +1195,7 @@ export default function Home() {
               </button>
               <button
                 className="border-2 border-white bg-[var(--ritual-accent)] px-3 py-2 text-xs font-black uppercase text-white shadow-[3px_3px_0_var(--ritual-yellow)]"
-                onClick={() => setResumeMode("closed")}
+                onClick={() => setResumeMode("closing")}
                 type="button"
               >
                 Close
