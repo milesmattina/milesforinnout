@@ -1,495 +1,177 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #142b6f;
-  --paper: #fff7cc;
-  --ink: #142b6f;
-  --ritual-navy: #142b6f;
-  --ritual-accent: #142b6f;
-  --ritual-yellow: #ffdb00;
-  --shadow: rgba(23, 23, 23, 0.18);
+  --background: #fffefa;
+  --foreground: #332923;
+  --paper: #fff9e8;
+  --ink: #332923;
+  --brand-red: #b60000;
+  --brand-accent: #b60000;
+  --brand-yellow: #ffce32;
+  --shadow: #5e241c24;
 }
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-dm-sans), Arial, Helvetica, sans-serif;
+  --font-sans: var(--font-montserrat), Arial, Helvetica, sans-serif;
   --font-mono: "Courier New", Courier, monospace;
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-dm-sans), Arial, Helvetica, sans-serif;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-::selection {
-  background: var(--ritual-yellow);
-  color: var(--ink);
-}
-
-.why-card {
-  transform: translateX(0) rotate(0deg);
-  transform-origin: center;
-}
-
-.why-card--exit-next {
-  animation: why-card-exit-next 240ms ease-in both;
-}
-
-.why-card--exit-prev {
-  animation: why-card-exit-prev 240ms ease-in both;
-}
-
-.can-target-arrow {
-  color: var(--ink);
-  inset: 0;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-  position: absolute;
-  width: 100%;
-  z-index: 9;
-  filter: drop-shadow(3px 3px 0 rgba(196, 32, 50, 0.28));
-}
-
-.can-target-arrow__path {
-  fill: none;
-  marker-end: url("#can-target-arrow-head");
-  stroke: currentColor;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-width: 9;
-  vector-effect: non-scaling-stroke;
-}
-
-.can-target-arrow__draw {
-  animation: can-arrow-reveal 880ms linear both;
-  clip-path: inset(0 100% 0 0);
-}
-
-.can-prompt-button {
-  background: white;
-  border: 2px solid var(--ritual-navy);
-  box-shadow: 6px 6px 0 var(--ritual-accent);
-  color: var(--ritual-navy);
-  font-size: 0.875rem;
-  font-weight: 900;
-  padding: 0.75rem 1.25rem;
-  transition:
-    box-shadow 180ms ease,
-    transform 180ms ease;
-}
-
-.can-prompt-button:hover {
-  box-shadow: 9px 9px 0 var(--ritual-accent);
-  transform: translateY(-0.25rem);
-}
-
-.can-prompt-button--final {
-  background: var(--ritual-accent);
-  color: white;
-  font-size: 1.125rem;
-  text-transform: uppercase;
-}
-
-.buoy-sticker {
-  position: absolute;
-  z-index: 12;
-  height: auto;
-  pointer-events: none;
-  user-select: none;
-  filter:
-    drop-shadow(0 0 1px white)
-    drop-shadow(0 0 5px white)
-    drop-shadow(5px 6px 0 rgba(0, 0, 0, 0.24));
-}
-
-.buoy-sticker--bird {
-  right: -22px;
-  bottom: 6px;
-  width: clamp(96px, 13vw, 158px);
-  transform: rotate(9deg);
-}
-
-.konocti-climb-sticker {
-  right: -22px;
-  bottom: -2px;
-  width: clamp(132px, 17vw, 210px);
-  transform: rotate(7deg);
-}
-
-.south-of-sober-sticker {
-  right: -22px;
-  bottom: -4px;
-  width: clamp(148px, 19vw, 232px);
-  filter: drop-shadow(6px 7px 0 rgba(0, 0, 0, 0.24));
-  transform: rotate(-7deg);
-}
-
-@media (max-width: 640px) {
-  .resume-bottle {
-    transform: translate(-50%, -50%) rotate(3deg) scale(0.88);
-  }
-
-  .resume-bottle:hover,
-  .resume-bottle--open,
-  .resume-bottle--opening {
-    transform: translate(-50%, -51%) rotate(-1deg) scale(0.88);
-  }
-
-  .resume-bottle--prompt {
-    animation-name: can-prompt-shake-mobile;
-  }
-
-  .buoy-sticker--bird {
-    right: -10px;
-    bottom: 4px;
-    width: 112px;
-  }
-
-  .konocti-climb-sticker {
-    right: -12px;
-    bottom: 0;
-    width: 136px;
-  }
-
-  .south-of-sober-sticker {
-    right: -10px;
-    bottom: -2px;
-    width: 158px;
-  }
-}
-
-@keyframes can-prompt-shake {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) rotate(5deg);
-  }
-
-  16% {
-    transform: translate(-52%, -50%) rotate(0deg);
-  }
-
-  32% {
-    transform: translate(-48%, -50%) rotate(10deg);
-  }
-
-  48% {
-    transform: translate(-52%, -50%) rotate(0deg);
-  }
-
-  64% {
-    transform: translate(-48%, -50%) rotate(10deg);
-  }
-
-  80% {
-    transform: translate(-50%, -50%) rotate(5deg);
-  }
-}
-
-@keyframes can-arrow-reveal {
-  0% {
-    opacity: 0;
-    clip-path: inset(0 100% 0 0);
-  }
-
-  1% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 1;
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-@keyframes why-card-exit-next {
-  0% {
-    opacity: 1;
-    transform: translateX(0) rotate(0deg);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(-120%) rotate(-7deg);
-  }
-}
-
-@keyframes why-card-exit-prev {
-  0% {
-    opacity: 1;
-    transform: translateX(0) rotate(0deg);
-  }
-
-  100% {
-    opacity: 0;
-    transform: translateX(120%) rotate(7deg);
-  }
-}
-
-@keyframes can-prompt-shake-mobile {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) rotate(3deg) scale(0.88);
-  }
-
-  16% {
-    transform: translate(-52%, -50%) rotate(-2deg) scale(0.88);
-  }
-
-  32% {
-    transform: translate(-48%, -50%) rotate(8deg) scale(0.88);
-  }
-
-  48% {
-    transform: translate(-52%, -50%) rotate(-2deg) scale(0.88);
-  }
-
-  64% {
-    transform: translate(-48%, -50%) rotate(8deg) scale(0.88);
-  }
-
-  80% {
-    transform: translate(-50%, -50%) rotate(3deg) scale(0.88);
-  }
-}
-
-@keyframes can-crack {
-  0%,
-  100% {
-    transform: translate(-50%, -50%) rotate(5deg);
-  }
-
-  18% {
-    transform: translate(-50%, -51%) rotate(2deg);
-  }
-
-  35% {
-    transform: translate(-50%, -50%) rotate(6deg);
-  }
-
-  52% {
-    transform: translate(-50%, -52%) rotate(0deg);
-  }
-
-  72% {
-    transform: translate(-50%, -51%) rotate(-3deg);
-  }
-}
-
-@keyframes lid-crack {
-  0%,
-  38% {
-    top: 0;
-    transform: translateX(-50%) rotate(0deg);
-  }
-
-  54% {
-    top: -8px;
-    transform: translateX(-50%) rotate(5deg);
-  }
-
-  76%,
-  100% {
-    top: -24px;
-    transform: translateX(-50%) rotate(-13deg);
-  }
-}
-
-@keyframes pull-tab-pop {
-  0%,
-  30% {
-    transform: translateX(-50%) rotate(-4deg);
-  }
-
-  46% {
-    transform: translateX(-50%) translateY(-7px) rotate(18deg);
-  }
-
-  72%,
-  100% {
-    transform: translateX(-50%) translateY(-5px) rotate(-15deg);
-  }
-}
-
-/* Ritual visual system, layered over the original portfolio structure. */
-:root { --ritual-navy: #142b6f; --ritual-accent: #142b6f; --ritual-yellow: #ffdb00; --ritual-cream: #fff7cc; }
-html { scroll-padding-top: 90px; }
-body { font-family: var(--font-dm-sans), Arial, sans-serif; }
+body { background: var(--background); color: var(--foreground); font-family: var(--font-montserrat), Arial, sans-serif; }
+html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+::selection { background: var(--brand-yellow); color: #662000; }
 button, a { -webkit-tap-highlight-color: transparent; }
 button { cursor: pointer; }
 button:disabled { cursor: not-allowed; }
-a:focus-visible, button:focus-visible { outline: 3px solid #5674bd; outline-offset: 5px; }
-.site-nav { border-width: 0 0 1px; border-color: #142b6f20; box-shadow: none; background: #fff; padding: 22px 5%; }
+a:focus-visible, button:focus-visible, .resume-page:focus-visible { outline: 3px solid #b60000; outline-offset: 5px; }
+
+/* The original page structure, with the double rules and bold lettering of In-N-Out. */
+.site-nav { border: 0; border-bottom: 7px double var(--brand-red); box-shadow: none; background: #fff; padding: 20px 5%; }
 .site-nav > div { max-width: 1360px; }
-.site-nav a { box-shadow: none; border: 0; font-weight: 500; font-family: inherit; text-transform: none; letter-spacing: 0; font-size: 15px; background: transparent; }
-.site-nav > div > a { font-size: 21px; font-weight: 650; letter-spacing: -.7px; }
+.site-nav a { box-shadow: none; border: 0; font-weight: 700; font-family: inherit; text-transform: uppercase; letter-spacing: 0; font-size: 13px; background: transparent; }
+.site-nav > div > a { font-size: 17px; font-weight: 850; letter-spacing: -.6px; text-transform: none; }
 .site-nav a:hover { box-shadow: none; text-decoration: underline; text-underline-offset: 5px; }
-.ritual-hero { max-width: none; padding-inline: max(5%, calc((100vw - 1360px) / 2)); background: #fff7cc; min-height: 680px; gap: 3rem; overflow: hidden; }
-.ritual-hero::before { content: ''; position: absolute; width: 850px; height: 850px; right: -190px; top: -80px; border-radius: 50%; background: #ffdb00; }
-.hero-copy > p:first-child { transform: none; box-shadow: none; border: 0; padding: 0; background: none; letter-spacing: .13em; font-size: 12px; font-weight: 600; }
-.hero-copy h1 { font-size: clamp(64px, 7.1vw, 102px); line-height: .98; letter-spacing: -.065em; text-transform: none; font-weight: 500; max-width: 540px; }
-.hero-copy > p:not(:first-child) { font-size: 20px; line-height: 1.55; font-weight: 400; max-width: 510px; }
-.can-prompt-button { border-radius: 100px; background: var(--ritual-navy); color: white; box-shadow: none; border: 1px solid var(--ritual-navy); padding: 15px 28px; font-family: inherit; font-weight: 500; font-size: 16px; }
-.can-prompt-button:hover { box-shadow: none; background: #233d82; transform: translateY(-2px); }
-.can-prompt-button--final { background: white; color: var(--ritual-navy); }
-.can-target-arrow { filter: none; }
-.can-target-arrow__path { stroke-width: 5px; }
-.bottle-stage { min-height: 540px; }
-.resume-bottle { position: absolute; width: 342px; height: 545px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(7deg); border: 0; padding: 0; background: none; transition: transform .45s ease; }
-.resume-bottle__art { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(20px 21px 13px #8c732d24); }
-.resume-bottle__label { font-family: var(--font-dm-sans), Arial, sans-serif; }
-.resume-bottle:hover { transform: translate(-50%, -50%) rotate(7deg); }
-.resume-bottle:focus-visible { outline: 3px solid var(--ritual-navy); border-radius: 120px; outline-offset: 6px; }
-.resume-bottle--prompt { animation: bottle-nudge .52s ease; }
-.resume-bottle__cta { position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%) rotate(-7deg); color: var(--ritual-navy); white-space: nowrap; font-size: 13px; font-weight: 500; padding: 9px 16px; border-radius: 100px; border: 1px solid #142b6f55; background: #fff9; }
+.brand-hero { max-width: none; padding-inline: max(5%, calc((100vw - 1360px) / 2)); background: #fffaf0; min-height: 680px; gap: 3rem; overflow: hidden; border-bottom: 7px double var(--brand-red); }
+.brand-hero::before { content: ''; position: absolute; width: 720px; height: 500px; right: -40px; top: 74px; background: var(--brand-yellow); clip-path: polygon(0 24%, 68% 24%, 68% 0, 100% 50%, 68% 100%, 68% 76%, 15% 76%); transform: rotate(-8deg); }
+.hero-copy > p:first-child { transform: none; box-shadow: none; border: 0; padding: 0; background: none; letter-spacing: .16em; font-size: 11px; font-weight: 750; }
+.hero-copy h1 { font-size: clamp(60px, 6.8vw, 96px); line-height: .98; letter-spacing: -.065em; text-transform: none; font-weight: 850; max-width: 570px; }
+.hero-copy > p:not(:first-child) { font-size: 18px; line-height: 1.65; font-weight: 450; max-width: 510px; }
+.can-prompt-button { border-radius: 5px; background: var(--brand-red); color: white; box-shadow: 4px 4px 0 var(--brand-yellow); border: 2px solid var(--brand-red); padding: 15px 26px; font-family: inherit; font-weight: 750; font-size: 14px; transition: transform .18s ease, box-shadow .18s ease; }
+.can-prompt-button:hover { background: #950000; transform: translateY(-2px); box-shadow: 6px 6px 0 var(--brand-yellow); }
+.can-prompt-button--final { background: white; color: var(--brand-red); }
+.can-prompt-button--final:hover { background: var(--brand-yellow); color: var(--brand-red); }
+.can-target-arrow { color: var(--brand-red); inset: 0; height: 100%; overflow: visible; pointer-events: none; position: absolute; width: 100%; z-index: 9; }
+.can-target-arrow__path { fill: none; marker-end: url("#can-target-arrow-head"); stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 5; vector-effect: non-scaling-stroke; }
+.can-target-arrow__draw { animation: can-arrow-reveal 880ms linear both; clip-path: inset(0 100% 0 0); }
+
+/* A folded paper bag. The sheet sits behind the front panel, so it emerges through the mouth. */
+.bag-stage { min-height: 540px; }
+.resume-bag { position: absolute; width: 420px; height: 540px; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(5deg); border: 0; padding: 0; background: none; }
+.resume-bag__art { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(14px 20px 13px #66391c22); }
+.resume-bag:focus-visible { outline: 3px solid var(--brand-red); border-radius: 16px; outline-offset: -10px; }
+.resume-bag--prompt { animation: bag-nudge .52s ease; }
+.resume-bag__cta { position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%) rotate(-5deg); color: var(--brand-red); white-space: nowrap; font-size: 12px; font-weight: 750; padding: 11px 19px; border-radius: 4px; border: 2px solid var(--brand-red); background: #fffcf4; box-shadow: 3px 3px 0 #b6000020; }
+.resume-bag__fold { transform-origin: 194px 190px; }
+.resume-bag__gusset { transform-origin: 312px 190px; }
+.resume-bag--opening .resume-bag__fold { animation: bag-unfold 1200ms ease-in-out both; }
+.resume-bag--opening .resume-bag__sheet { animation: sheet-out 1200ms ease-in-out both; }
+.resume-bag--opening .resume-bag__gusset { animation: gusset-open 1200ms ease-in-out both; }
+.resume-bag--open .resume-bag__fold { transform: translateY(-12px) scaleY(-.65); }
+.resume-bag--open .resume-bag__sheet { transform: translateY(-175px) rotate(-3deg); }
+.resume-bag--open .resume-bag__gusset { transform: scaleX(1.18); }
+.resume-bag--closing .resume-bag__fold { animation: bag-unfold 1000ms ease-in-out reverse both; }
+.resume-bag--closing .resume-bag__sheet { animation: sheet-out 1000ms ease-in-out reverse both; }
+.resume-bag--closing .resume-bag__gusset { animation: gusset-open 1000ms ease-in-out reverse both; }
+@keyframes bag-unfold { 0% { transform: translateY(0) scaleY(1); } 35% { transform: translateY(-12px) scaleY(-.65); } 100% { transform: translateY(-12px) scaleY(-.65); } }
+@keyframes sheet-out { 0%, 35% { transform: translateY(0) rotate(0); } 100% { transform: translateY(-175px) rotate(-3deg); } }
+@keyframes gusset-open { 0% { transform: scaleX(1); } 40%, 100% { transform: scaleX(1.18); } }
+@keyframes bag-nudge { 0%,100% { transform: translate(-50%,-50%) rotate(5deg); } 25% { transform: translate(-50%,-50%) rotate(0); } 60% { transform: translate(-50%,-50%) rotate(9deg); } }
+
 #why-me, #field-notes, #talk { max-width: 1360px; padding-inline: 5%; scroll-margin-top: 30px; }
 #why-me { padding-block: 100px 60px; }
-#why-me h2, #field-notes h2, #talk h2 { font-weight: 500; text-transform: none; letter-spacing: -.045em; line-height: 1.04; }
+#why-me h2, #field-notes h2, #talk h2 { font-weight: 800; text-transform: none; letter-spacing: -.055em; line-height: 1.04; }
 #why-me h2 { font-size: 64px; }
-#field-notes h2 { max-width: 660px; font-size: clamp(40px,5vw,64px); }
-#field-notes > div > p:last-child { font-weight: 400; }
-.font-mono { font-family: inherit; font-weight: 500; }
-.why-card { border-width: 1px; border-color: #142b6f40; border-radius: 5px; box-shadow: 7px 9px 0 #fff1a3; }
-#why-me [class*="pointer-events-none absolute"] { border-width: 1px; border-color: #142b6f30; background: #fff7cc; box-shadow: none; border-radius: 5px; }
-.why-card .font-black { font-weight: 600; letter-spacing: -.035em; }
-.why-card .font-bold { font-weight: 400; }
+#field-notes h2 { max-width: 700px; font-size: clamp(40px,5vw,64px); }
+#field-notes > div > p:last-child { font-weight: 450; }
+.font-mono { font-family: inherit; font-weight: 700; }
+.why-card { transform: translateX(0) rotate(0); transform-origin: center; border: 2px solid #b60000; border-radius: 5px; box-shadow: 7px 9px 0 var(--brand-yellow); }
+.why-card--exit-next { animation: why-card-exit-next 240ms ease-in both; }
+.why-card--exit-prev { animation: why-card-exit-prev 240ms ease-in both; }
+#why-me [class*="pointer-events-none absolute"] { border: 2px solid #b6000040; background: #fff9e8; box-shadow: none; border-radius: 5px; }
+.why-card .font-black { font-weight: 800; letter-spacing: -.04em; }
+.why-card .font-bold { font-weight: 500; }
 .why-card .uppercase:not(.font-mono) { text-transform: none; }
-#why-me button { border-width: 1px; box-shadow: none; border-radius: 100px; font-weight: 500; text-transform: none; }
-#why-me video { border-radius: 2px; }
+#why-me button { border-width: 2px; box-shadow: none; border-radius: 4px; font-weight: 750; text-transform: none; }
 #why-me .overflow-hidden { box-shadow: none; border-width: 1px; }
 #why-me .why-card > span:not(.font-mono) { line-height: 1.03; }
+#why-me button[aria-label="Previous reason"], #why-me button[aria-label="Next reason"] { min-width: 48px; min-height: 48px; }
+@keyframes why-card-exit-next { to { opacity: 0; transform: translateX(-120%) rotate(-7deg); } }
+@keyframes why-card-exit-prev { to { opacity: 0; transform: translateX(120%) rotate(7deg); } }
+@keyframes can-arrow-reveal { 0% { opacity: 0; clip-path: inset(0 100% 0 0); } 1% { opacity: 1; } 100% { opacity: 1; clip-path: inset(0 0 0 0); } }
+
 #field-notes { padding-top: 45px; }
 #field-notes > div:nth-child(2) { margin-top: 54px; }
-#field-notes article { padding-block: 35px; border-top: 1px solid #142b6f26; gap: 30px; }
-.project-intro { outline: 0; border: 0; border-radius: 6px; box-shadow: none; padding: 30px; min-height: 480px; }
-.project-intro h3 { font-weight: 500; text-transform: none; letter-spacing: -.04em; font-size: 43px; }
-.project-intro > p { font-weight: 400; }
-.project-intro a { border-width: 1px; box-shadow: none; border-radius: 3px; text-transform: none; font-weight: 500; }
-.project-intro > a { padding: 20px; }
-.project-intro > a span:nth-child(2) { font-size: 27px; font-weight: 500; text-transform: none; letter-spacing: -.03em; line-height: 1.06; }
+#field-notes article { padding-block: 35px; border-top: 5px double #b6000040; gap: 30px; }
+.project-intro { outline: 0; border: 0; border-radius: 5px; box-shadow: none; padding: 30px; min-height: 480px; }
+.project-intro h3 { font-weight: 800; text-transform: none; letter-spacing: -.055em; font-size: 43px; }
+.project-intro > p { font-weight: 450; }
+.project-intro a { border-width: 1px; box-shadow: none; border-radius: 3px; text-transform: none; font-weight: 650; }
+.project-intro > a { padding: 20px; border: 1px solid #ffffff80; }
+.project-intro > a span:nth-child(2) { font-size: 27px; font-weight: 650; text-transform: none; letter-spacing: -.04em; line-height: 1.06; }
 .project-intro > a span:last-child { font-size: 10px; letter-spacing: 0; }
 .project-intro .flex { position: relative; z-index: 15; padding-right: 60px; }
-.artifact-card { border: 1px solid #142b6f29; border-radius: 5px; box-shadow: 0 3px 12px #142b6f06; transform: none; padding: 12px; }
-.artifact-card > p:first-of-type { text-transform: none; font-weight: 600; font-size: 16px; }
-.artifact-card > p:last-child { font-weight: 400; line-height: 1.5; }
+.artifact-card { border: 1px solid #b6000033; border-radius: 4px; box-shadow: 0 3px 12px #71301406; transform: none; padding: 12px; }
+.artifact-card > p:first-of-type { text-transform: none; font-weight: 750; font-size: 15px; }
+.artifact-card > p:last-child { font-weight: 450; line-height: 1.5; }
 .artifact-card video, .artifact-card img { border-radius: 2px; }
-.talk-card { border: 0; background: #fff7cc; border-radius: 6px; box-shadow: none; max-width: none; padding: 55px; }
-.talk-card h2 { max-width: 740px; font-size: clamp(44px,6vw,76px); }
-.talk-card p { font-weight: 400; }
-.talk-card button, .resume-download { border-radius: 100px; padding: 12px 24px; box-shadow: none; border: 1px solid var(--ritual-navy); background: var(--ritual-navy); color: white; font-weight: 500; text-transform: none; }
-.portfolio-footer { padding: 24px 5% 40px; font-size: 12px; color: #62719f; border-top: 1px solid #142b6f15; }
-aside[aria-label="Miles Mattina resume viewer"] { border-width: 1px; box-shadow: 0 20px 80px #142b6f40; border-radius: 8px; overflow: hidden; }
+.buoy-sticker { position: absolute; z-index: 12; height: auto; pointer-events: none; user-select: none; filter: drop-shadow(0 0 1px white) drop-shadow(0 0 5px white) drop-shadow(5px 6px 0 #0000003d); }
+.buoy-sticker--bird { right: -22px; bottom: 6px; width: clamp(96px,13vw,158px); transform: rotate(9deg); }
+.konocti-climb-sticker { right: -22px; bottom: -2px; width: clamp(132px,17vw,210px); transform: rotate(7deg); }
+.south-of-sober-sticker { right: -22px; bottom: -4px; width: clamp(148px,19vw,232px); filter: drop-shadow(6px 7px 0 #0000003d); transform: rotate(-7deg); }
+.talk-card { border: 0; border-top: 7px double var(--brand-red); background: #fff4cb; border-radius: 5px; box-shadow: none; max-width: none; padding: 55px; }
+.talk-card h2 { max-width: 850px; font-size: clamp(44px,6vw,76px); }
+.talk-card p { font-weight: 450; }
+.talk-card button, .resume-download { border-radius: 4px; padding: 12px 24px; box-shadow: none; border: 2px solid var(--brand-red); background: var(--brand-red); color: white; font-weight: 700; text-transform: none; }
+.contact-link { border: 2px solid var(--brand-red); border-radius: 4px; padding: 12px 24px; color: var(--brand-red); font-weight: 700; font-size: 14px; }
+.contact-link:hover { background: white; }
+.portfolio-footer { padding: 24px 5% 40px; font-size: 12px; color: #7d342b; border-top: 7px double var(--brand-red); }
+aside[aria-label="Miles Mattina resume viewer"] { border-width: 2px; box-shadow: 0 20px 80px #70282040; border-radius: 6px; overflow: hidden; }
 aside[aria-label="Miles Mattina resume viewer"] > div { border: 0; }
-aside[aria-label="Miles Mattina resume viewer"] h3 { font-size: 21px; font-weight: 500; text-transform: none; }
-aside[aria-label="Miles Mattina resume viewer"] button, .resume-download { border-radius: 100px; box-shadow: none; font-weight: 500; text-transform: none; font-size: 11px; padding: 8px 12px; }
-.resume-download { border: 1px solid white; }
-@keyframes bottle-nudge { 0%,100% { transform: translate(-50%,-50%) rotate(7deg); } 25% { transform: translate(-50%,-50%) rotate(0deg); } 60% { transform: translate(-50%,-50%) rotate(12deg); } }
-@media (min-width: 1024px) { .ritual-hero { grid-template-columns: 1.05fr .95fr; } }
+aside[aria-label="Miles Mattina resume viewer"] h3 { font-size: 20px; font-weight: 750; text-transform: none; }
+aside[aria-label="Miles Mattina resume viewer"] button, .resume-download { border-radius: 3px; box-shadow: none; font-weight: 650; text-transform: none; font-size: 11px; padding: 9px 12px; min-height: 36px; }
+.resume-download, .resume-zoom { border: 1px solid white; }
+aside[aria-label="Miles Mattina resume viewer"] button:focus-visible, .resume-download:focus-visible { outline-color: var(--brand-yellow); }
+.resume-page:focus-visible { outline-offset: -4px; }
+@media (min-width: 1024px) { .brand-hero { grid-template-columns: 1.05fr .95fr; } }
 @media (max-width: 1023px) {
-  .ritual-hero { gap: 12px; min-height: auto; padding-block: 60px 35px; }
-  .ritual-hero::before { width: 700px; height: 700px; right: -200px; top: 480px; }
+  .brand-hero { gap: 12px; min-height: auto; padding-block: 60px 35px; }
+  .brand-hero::before { width: 740px; height: 480px; right: -160px; top: auto; bottom: 70px; }
   .hero-copy h1 { max-width: 650px; }
   .hero-copy > p:not(:first-child) { max-width: 640px; }
-  .bottle-stage { min-height: 540px; }
+  .bag-stage { min-height: 540px; }
   #why-me { padding-top: 65px; }
 }
 @media (max-width: 640px) {
-  .site-nav { padding: 15px 5%; }
-  .site-nav > div { gap: 8px; }
-  .site-nav > div > a { font-size: 16px; white-space: nowrap; }
+  .site-nav { padding: 12px 5%; }
+  .site-nav > div { flex-wrap: wrap; gap: 8px; }
+  .site-nav > div > a { font-size: 14px; white-space: nowrap; }
   .site-nav a { font-size: 11px; padding: 5px; }
   .site-nav > div > div { gap: 2px; }
-  .ritual-hero { padding-top: 44px; }
-  .hero-copy h1 { font-size: 69px; }
-  .hero-copy > p:not(:first-child) { font-size: 17px; line-height: 1.55; margin-top: 22px; }
+  .brand-hero { padding-top: 40px; }
+  .hero-copy h1 { font-size: clamp(56px, 15vw, 69px); }
+  .hero-copy > p:not(:first-child) { font-size: 16px; line-height: 1.65; margin-top: 22px; }
   .hero-copy > p:first-child { font-size: 10px; }
   .hero-copy > div { margin-top: 24px; }
-  .ritual-hero::before { width: 620px; height: 620px; top: 400px; right: -250px; }
-  .bottle-stage { min-height: 490px; }
-  .resume-bottle, .resume-bottle:hover, .resume-bottle--open, .resume-bottle--opening { width: 300px; height: 480px; transform: translate(-50%,-50%) rotate(5deg); }
-  .resume-bottle--prompt { animation-name: bottle-nudge; }
+  .brand-hero::before { width: 560px; height: 340px; bottom: 90px; right: -160px; }
+  .bag-stage { min-height: 440px; }
+  .resume-bag { width: 340px; height: 437px; max-width: 98vw; }
+  .resume-bag__cta { bottom: -1px; }
   #why-me { gap: 35px; }
   #why-me h2 { font-size: 50px; }
-  .why-card { box-shadow: 5px 7px 0 #fff1a3; }
-  .why-card > span:not(.font-mono) { font-size: 39px; }
-  .why-card > span:last-child:not(.font-mono) { font-size: 20px; line-height: 1.3; }
+  .why-card { box-shadow: 5px 7px 0 var(--brand-yellow); }
+  .why-card > span:not(.font-mono) { font-size: clamp(28px, 8.97vw, 35px); }
+  .why-card > span:last-child:not(.font-mono) { font-size: 18px; line-height: 1.3; }
   .why-card .font-mono { font-size: 10px; }
+  .why-card.why-card--bridge > span:last-child { font-size: 40px; line-height: 1.03; }
+  .why-card.why-card--sincere > span:last-child { font-size: 29px; line-height: 1.03; }
   #field-notes { padding-top: 10px; }
   #field-notes article { gap: 20px; }
-  .project-intro { min-height: 430px; padding: 25px 100px 25px 25px; }
+  .project-intro { min-height: 430px; padding: 25px 25px 135px; }
   .project-intro h3 { font-size: 38px; }
   .project-intro > a { padding: 15px; }
   .project-intro > a span:nth-child(2) { font-size: 23px; }
   .project-intro .flex { padding-right: 0; }
+  .buoy-sticker--bird { right: -10px; bottom: 4px; width: 112px; }
+  .konocti-climb-sticker { right: -12px; bottom: 0; width: 136px; }
+  .south-of-sober-sticker { right: -10px; bottom: -2px; width: 158px; }
   .talk-card { padding: 30px; }
   #talk { padding-block: 40px; }
-  aside[aria-label="Miles Mattina resume viewer"] { top: 74px; right: 8px; bottom: 8px; width: calc(100vw - 16px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-}
-.can-prompt-button--final:hover { background: var(--ritual-yellow); color: var(--ritual-navy); }
-.contact-link { border: 1px solid var(--ritual-navy); border-radius: 100px; padding: 12px 24px; font-weight: 500; font-size: 14px; }
-.contact-link:hover { background: white; }
-.resume-bottle__art { transform: scaleX(1.12); }
-.resume-zoom { border: 1px solid white; }
-.resume-page:focus-visible { outline-offset: -4px; }
-@media (max-width: 640px) {
+  aside[aria-label="Miles Mattina resume viewer"] { top: 96px; right: 8px; bottom: 8px; width: calc(100vw - 16px); }
+  aside[aria-label="Miles Mattina resume viewer"][data-mode="full"] { inset: 8px; width: auto; }
   aside[aria-label="Miles Mattina resume viewer"] > div:first-child { padding: 10px 12px; gap: 9px; }
   aside[aria-label="Miles Mattina resume viewer"] button, .resume-download { font-size: 10px; padding: 7px 9px; }
   aside[aria-label="Miles Mattina resume viewer"] > div:first-child > div:last-child { gap: 5px; }
 }
-@media (max-width: 640px) {
-  .why-card.why-card--bridge > span:last-child { font-size: 44px; line-height: 1.03; }
-  .why-card.why-card--sincere > span:last-child { font-size: 33px; line-height: 1.03; }
-}
-@media (max-width: 640px) {
-  .project-intro { padding: 25px 25px 135px; }
-}
-
-/* The cap turns counterclockwise on its threads, then lifts off; closing reverses that motion. */
-.resume-bottle__cap { transform-origin: 160px 80px; opacity: 1; }
-.resume-bottle__cap-turn { transform-origin: 0 0; }
-.resume-bottle--opening .resume-bottle__cap { animation: cap-unscrew 1100ms ease-in-out both; }
-.resume-bottle--open .resume-bottle__cap { transform: translate(14px, -72px) rotate(-8deg); }
-.resume-bottle--closing .resume-bottle__cap { animation: cap-screw-on 1100ms ease-in-out both; }
-.resume-bottle--opening .resume-bottle__cap-turn { animation: cap-turn-left 1100ms ease-in-out both; }
-.resume-bottle--open .resume-bottle__cap-turn { transform: rotate(-540deg); }
-.resume-bottle--closing .resume-bottle__cap-turn { animation: cap-turn-right 1100ms ease-in-out both; }
-.resume-bottle--opening .resume-bottle__cap-ribs { animation: cap-ribs-left 1100ms ease-in-out both; }
-.resume-bottle--open .resume-bottle__cap-ribs { transform: translateX(25.2px); }
-.resume-bottle--closing .resume-bottle__cap-ribs { animation: cap-ribs-right 1100ms ease-in-out both; }
-@keyframes cap-unscrew {
-  0% { transform: translate(0, 0) rotate(0); }
-  58% { transform: translate(0, -15px) rotate(0); }
-  100% { transform: translate(14px, -72px) rotate(-8deg); }
-}
-@keyframes cap-screw-on {
-  0% { transform: translate(14px, -72px) rotate(-8deg); }
-  42% { transform: translate(0, -15px) rotate(0); }
-  100% { transform: translate(0, 0) rotate(0); }
-}
-@keyframes cap-turn-left {
-  0% { transform: rotate(0); }
-  58%, 100% { transform: rotate(-540deg); }
-}
-@keyframes cap-turn-right {
-  0%, 42% { transform: rotate(-540deg); }
-  100% { transform: rotate(0); }
-}
-@keyframes cap-ribs-left {
-  0% { transform: translateX(0); }
-  58%, 100% { transform: translateX(25.2px); }
-}
-@keyframes cap-ribs-right {
-  0%, 42% { transform: translateX(25.2px); }
-  100% { transform: translateX(0); }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }

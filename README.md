@@ -1,20 +1,21 @@
-# Miles for Ritual
+# Miles for In-N-Out Burger
 
-A separate, Ritual-tailored copy of Miles Mattina’s original Pabst application website. The original Pabst working folder and deployment are untouched.
+Independent general application by Miles Mattina, duplicated from the approved source commit `958b4e8` of `milesmattina/miles-for-ritual`. The source project is unchanged.
 
 ## Development
 
-- `npm ci`
-- `npm run dev`
-- `npm run lint`
-- `npm run build`
+```sh
+npm ci
+npm run dev
+npm run lint
+npm run typecheck
+npm run build
+```
 
-Built from the full local Pabst source snapshot, including its Why Me card deck, videos, case studies, and expandable resume viewer. The resume bottle is an original SVG/CSS illustration; the visual system uses Ritual’s navy, yellow, white, and clear-bottle packaging as reference. DM Sans is an open-source geometric substitute for Ritual’s proprietary CircularXX typeface.
+The approved introduction, eight-card deck, case studies, optimized portfolio assets, original resume PDF, and viewer are retained. Only company, role, branding, and object-specific references change.
 
-Production: https://miles-for-ritual.vercel.app
+The original SVG takeout bag unfolds at its top crease, opens its side gusset, and lifts a resume sheet out. Closing reverses the sequence. Controls support keyboard and touch; reduced-motion preferences shorten animations and avoid smooth scrolling. Portfolio videos load and play when visible, muted, inline, looping, without playback or picture-in-picture controls.
 
-Supabase project provisioning is pending the account’s free-project quota. The site’s portfolio and resume features work without a database; no visitor data is collected while that integration is unconfigured.
+Brand reference: https://www.in-n-out.com/ — red, yellow, white, Montserrat typography, double rules, and palm motifs. This is an independent application, not an official In-N-Out website.
 
-The resume viewer renders the original PDF as an accessible, zoomable page preview; the original PDF remains downloadable. Videos pause outside the viewport. Reduced-motion preferences are respected for interface animations. Portfolio videos automatically play muted on a loop when visible, without playback controls.
-
-The bottle cap unscrews counterclockwise and lifts off without fading; closing reverses the motion. All portfolio stills and video posters are pre-optimized WebP assets loaded eagerly, while videos defer downloading until they enter the viewport. The website-build timelapse has been removed.
+Supabase: not used. No project, credentials, client, database, analytics, or backend integration is required or provisioned.

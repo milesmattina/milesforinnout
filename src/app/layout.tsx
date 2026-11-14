@@ -1,30 +1,32 @@
 import type { Metadata } from "next";
-import { DM_Sans } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 
-const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-dm-sans", display: "swap" });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", display: "swap" });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://miles-for-ritual.vercel.app"),
+  metadataBase: new URL("https://milesforinnout.vercel.app"),
   icons: { icon: "/favicon.svg" },
   title: {
-    default: "Miles Mattina for Ritual",
-    template: "%s | Miles Mattina for Ritual",
+    default: "Miles Mattina for In-N-Out Burger",
+    template: "%s | Miles Mattina for In-N-Out Burger",
   },
   description:
-    "A custom interactive application for the Brand Manager role at Ritual.",
+    "An independent, interactive In-N-Out Burger application by Miles Mattina. The work, the receipts, and a resume to go.",
+  twitter: { card: "summary_large_image", images: ["/social-preview.png"] },
   openGraph: {
-    title: "Miles Mattina for Ritual",
+    title: "Miles Mattina for In-N-Out Burger",
     description:
-      "A custom interactive application for the Brand Manager role at Ritual.",
+      "An independent, interactive In-N-Out Burger application by Miles Mattina. The work, the receipts, and a resume to go.",
     type: "website",
+    images: [{ url: "/social-preview.png", width: 1200, height: 630, alt: "Miles Mattina for In-N-Out Burger — Who is this guy?" }],
   },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="h-full antialiased">
-      <body className={`${dmSans.variable} min-h-full flex flex-col`}>{children}</body>
+      <body className={`${montserrat.variable} min-h-full flex flex-col`}>{children}</body>
     </html>
   );
 }

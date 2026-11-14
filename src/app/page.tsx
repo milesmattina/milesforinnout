@@ -146,7 +146,7 @@ const whyCards: WhyCard[] = [
     note: "So I brought the work. And the receipts.",
   },
   {
-    title: "I PUT MY RESUME IN A VITAMIN BOTTLE.",
+    title: "I PUT MY RESUME IN A TAKEOUT BAG.",
     note: "Apparently, I take brand consistency pretty seriously.",
   },
   {
@@ -341,116 +341,81 @@ function createCanArrowGeometry(
 
 function colorClasses(color: FieldNote["color"]) {
   if (color === "red") {
-    return "bg-[var(--ritual-yellow)] text-[var(--ritual-navy)] shadow-[10px_10px_0_var(--ritual-navy)]";
+    return "bg-[var(--brand-yellow)] text-[var(--brand-red)] shadow-[10px_10px_0_var(--brand-red)]";
   }
 
   if (color === "gold") {
-    return "bg-[var(--ritual-yellow)] text-[var(--ink)] shadow-[10px_10px_0_var(--ritual-accent)]";
+    return "bg-[var(--brand-yellow)] text-[var(--ink)] shadow-[10px_10px_0_var(--brand-accent)]";
   }
 
-  return "bg-[var(--ritual-navy)] text-white shadow-[10px_10px_0_var(--ritual-accent)]";
+  return "bg-[var(--brand-red)] text-white shadow-[10px_10px_0_var(--brand-accent)]";
 }
 
-type ResumeBottleProps = {
+type ResumeBagProps = {
   isResumeActive: boolean;
   isPrompting: boolean;
   openResume: () => void;
   resumeMode: ResumeMode;
-  onCapMotionEnd: () => void;
+  onBagMotionEnd: () => void;
 };
 
-function ResumeBottle({
-  isResumeActive,
-  isPrompting,
-  openResume,
-  resumeMode,
-  onCapMotionEnd,
-}: ResumeBottleProps) {
+function ResumeBag({ isResumeActive, isPrompting, openResume, resumeMode, onBagMotionEnd }: ResumeBagProps) {
   return (
     <button
       aria-expanded={isResumeActive}
-      aria-label="Open Miles Mattina resume bottle"
+      aria-controls="resume-viewer"
+      aria-label="Open Miles Mattina resume bag"
       disabled={resumeMode === "opening" || resumeMode === "closing"}
-      className={`resume-bottle ${
-        resumeMode === "opening" ? "resume-bottle--opening" : resumeMode === "closing" ? "resume-bottle--closing" : ""
-      } ${isPrompting && !isResumeActive ? "resume-bottle--prompt" : ""} ${
-        isResumeActive && resumeMode !== "opening" ? "resume-bottle--open" : ""
-      }`}
+      className={`resume-bag ${resumeMode === "opening" ? "resume-bag--opening" : resumeMode === "closing" ? "resume-bag--closing" : ""} ${isPrompting && !isResumeActive ? "resume-bag--prompt" : ""} ${isResumeActive && resumeMode !== "opening" ? "resume-bag--open" : ""}`}
       onClick={openResume}
       type="button"
     >
-      <svg className="resume-bottle__art" viewBox="0 0 320 520" aria-hidden="true">
+      <svg className="resume-bag__art" viewBox="0 0 420 540" aria-hidden="true">
         <defs>
-          <linearGradient id="glass" x1="0" x2="1">
-            <stop offset="0" stopColor="#ad8c32" stopOpacity=".38" />
-            <stop offset=".09" stopColor="#fff" stopOpacity=".72" />
-            <stop offset=".22" stopColor="#fff5b6" stopOpacity=".16" />
-            <stop offset=".7" stopColor="#fff" stopOpacity=".12" />
-            <stop offset=".94" stopColor="#ad8c32" stopOpacity=".35" />
-            <stop offset="1" stopColor="#fff" stopOpacity=".6" />
-          </linearGradient>
-          <linearGradient id="cap" x1="0" x2="1">
-            <stop stopColor="#dadbd6" /><stop offset=".22" stopColor="#fff" />
-            <stop offset=".7" stopColor="#f8f8f2" /><stop offset="1" stopColor="#d2d4d0" />
-          </linearGradient>
-          <linearGradient id="capsule" x1="0" y1="0" x2=".5" y2="1">
-            <stop stopColor="#fff4a3" /><stop offset=".42" stopColor="#e5bb42" stopOpacity=".82" />
-            <stop offset="1" stopColor="#9e711c" stopOpacity=".88" />
-          </linearGradient>
-          <pattern id="beadlets" width="7" height="7" patternUnits="userSpaceOnUse">
-            <circle cx="3" cy="3" r="1.5" fill="#fff7cb" opacity=".9" />
+          <linearGradient id="bag-paper" x1="0" x2="1"><stop stopColor="#e5dfd0"/><stop offset=".09" stopColor="#fffdf5"/><stop offset=".45" stopColor="#ffffff"/><stop offset=".9" stopColor="#f4f0e5"/><stop offset="1" stopColor="#ded7c5"/></linearGradient>
+          <linearGradient id="bag-side"><stop stopColor="#d1c6b1"/><stop offset=".5" stopColor="#f1eadc"/><stop offset="1" stopColor="#c2b49b"/></linearGradient>
+          <linearGradient id="bag-fold" x1="0" y1="0" x2="0" y2="1"><stop stopColor="#fffdf5"/><stop offset=".8" stopColor="#e5dece"/><stop offset="1" stopColor="#c8bca4"/></linearGradient>
+          <pattern id="bag-palms" width="92" height="90" patternUnits="userSpaceOnUse">
+            <g fill="#b60000" transform="translate(18 7) rotate(-13 25 35)">
+              <path d="M25 22Q20 44 26 68H34Q23 45 29 22Z"/>
+              <path d="M27 24Q3 11 1 33Q13 23 24 27Q4 33 10 47Q17 32 28 28Q42 32 43 46Q51 29 32 24Q50 18 57 28Q51 7 30 21Q36 2 45 5Q32-6 27 18Q20 0 8 9Q20 9 27 24Z"/>
+            </g>
           </pattern>
-          <clipPath id="cap-ribs-clip"><rect x="94" y="65" width="132" height="30" rx="3" /></clipPath>
-          <clipPath id="bottle-clip"><path d="M79 140Q79 119 99 113L99 82H221V113Q241 119 241 140V441Q241 466 217 469H103Q79 466 79 441Z" /></clipPath>
+          <clipPath id="bag-front-clip"><path d="M75 190L312 187L331 457Q213 475 91 455Z"/></clipPath>
         </defs>
-        <ellipse cx="164" cy="482" rx="102" ry="13" fill="#66550f" opacity=".12" />
-        <path d="M79 140Q79 119 99 113L99 82H221V113Q241 119 241 140V441Q241 466 217 469H103Q79 466 79 441Z" fill="url(#glass)" stroke="#bba862" strokeOpacity=".5" strokeWidth="2" />
-        <g clipPath="url(#bottle-clip)">
-          {Array.from({ length: 32 }, (_, i) => {
-            const x = 88 + ((i * 43) % 118);
-            const y = 291 + ((i * 31) % 149);
-            const angle = ((i * 47) % 160) - 80;
-            return <g key={i} transform={`translate(${x} ${y}) rotate(${angle} 23 10)`} opacity={i < 14 ? .55 : .86}>
-              <rect width="48" height="21" rx="10.5" fill="url(#capsule)" stroke="#b58c34" strokeWidth=".8" />
-              <rect x="2" y="2" width="25" height="17" rx="8" fill="url(#beadlets)" />
-              <path d="M24 1V20M8 4H34" fill="none" stroke="#fff" strokeOpacity=".55" />
-            </g>;
-          })}
-          <path d="M91 149V433Q91 449 108 451" fill="none" stroke="white" strokeOpacity=".75" strokeWidth="5" />
-          <path d="M231 153V437" fill="none" stroke="white" strokeOpacity=".36" strokeWidth="3" />
-        </g>
-        <ellipse cx="160" cy="459" rx="73" ry="8" fill="#ac8834" opacity=".15" />
-        <g className="resume-bottle__label" fill="#142b6f" textAnchor="middle">
-          <circle cx="160" cy="176" r="24" />
-          <path d="M136 211H184" stroke="#142b6f" strokeWidth="3" />
-          <text x="160" y="242" fontSize="23" fontWeight="600" letterSpacing="-1">Miles Mattina</text>
-          <text x="160" y="265" fontSize="18" fontWeight="500">Resume</text>
-          <text x="160" y="286" fontSize="7.5" letterSpacing="1.4">THE ESSENTIALS</text>
-        </g>
-        <g className="resume-bottle__neck" fill="none" stroke="#bba862" strokeOpacity=".65">
-          <ellipse cx="160" cy="83" rx="60" ry="6" fill="#b5a35922" strokeWidth="2" />
-          <path d="M101 90Q160 98 219 90M101 98Q160 106 219 98M101 106Q160 114 219 106" strokeWidth="2" />
-        </g>
-        <g className="resume-bottle__cap" onAnimationEnd={(event) => {
-          if (event.target === event.currentTarget) onCapMotionEnd();
-        }}>
-          <rect x="91" y="56" width="138" height="47" rx="8" fill="url(#cap)" stroke="#d2d3cb" />
-          <g clipPath="url(#cap-ribs-clip)">
-            <g className="resume-bottle__cap-ribs">
-              {Array.from({length: 48}, (_, i) => <path key={i} d={`M${61 + i * 4.2} 65V94`} stroke="#9ba393" strokeOpacity={i % 6 === 0 ? .65 : .3} />)}
-            </g>
+        <ellipse cx="213" cy="478" rx="145" ry="16" fill="#7d311e" opacity=".12"/>
+        <g className="resume-bag__body">
+          <path d="M75 190L99 161L333 165L352 434L331 457L91 455Z" fill="url(#bag-side)" stroke="#c9bea8"/>
+          <path d="M94 190Q209 164 333 186L313 214L88 212Z" fill="#7a6040"/>
+          <path className="resume-bag__gusset" d="M312 187L333 165L352 434L331 457Z" fill="url(#bag-side)" stroke="#c5b89f"/>
+          <g className="resume-bag__sheet" onAnimationEnd={(event) => { if (event.target === event.currentTarget) onBagMotionEnd(); }}>
+            <rect x="113" y="223" width="190" height="224" rx="2" fill="#fff" stroke="#d8cebd"/>
+            <path d="M131 250H284" stroke="#b60000" strokeWidth="5"/>
+            <text x="131" y="277" fill="#b60000" fontSize="18" fontWeight="800">MILES MATTINA</text>
+            <text x="131" y="295" fill="#6d665b" fontSize="9" letterSpacing="3">RESUME</text>
+            <path d="M131 314H282M131 322H271M131 330H280M131 351H282M131 359H264M131 367H277M131 389H282M131 397H274M131 405H281" stroke="#c9c4b9" strokeWidth="3"/>
           </g>
-          <ellipse cx="160" cy="58" rx="68" ry="7" fill="#fffef7" stroke="#d2d3cb" strokeWidth=".6" />
-          <g transform="translate(160 58) scale(1 .105)">
-            <g className="resume-bottle__cap-turn">
-              <path d="M-38-32A50 50 0 0 1 47 17" fill="none" stroke="#b1b7a9" strokeWidth="5" />
-              <circle cx="-44" cy="20" r="7" fill="#a3aa98" />
+          <path d="M75 190L312 187L331 457Q213 475 91 455Z" fill="url(#bag-paper)" stroke="#d8cfbb"/>
+          <g clipPath="url(#bag-front-clip)">
+            <rect x="74" y="359" width="264" height="105" fill="url(#bag-palms)"/>
+            <path d="M80 346H324M80 353H324" stroke="#b60000" strokeWidth="3"/>
+            <path d="M96 198L111 439L91 455M297 196L312 439L331 457M111 439Q209 450 312 439" fill="none" stroke="#b6a78a" opacity=".24"/>
+            <path d="M83 205L107 438" stroke="#fff" strokeWidth="4" opacity=".65"/>
+            <path d="M120 218Q113 211 123 211L266 231L270 218L294 243L263 252L266 239L141 226L151 251L135 247Z" fill="#ffce32"/>
+            <g fill="#b60000" textAnchor="middle" fontWeight="900">
+              <text x="204" y="277" fontSize="29" letterSpacing="-1.5">MILES MATTINA</text>
+              <text x="204" y="309" fontSize="28" letterSpacing="3">RESUME</text>
             </g>
+            <text x="204" y="330" textAnchor="middle" fill="#b60000" fontSize="8" fontWeight="700" letterSpacing="1.8">FOR IN-N-OUT BURGER</text>
           </g>
-          <path d="M97 99H223" stroke="#c5c6bd" strokeWidth="2" />
+          <g className="resume-bag__fold">
+            <path d="M75 190L83 148L315 146L312 187Q193 201 75 190Z" fill="url(#bag-fold)" stroke="#cfc5af"/>
+            <path d="M83 148L94 155L304 153L315 146M81 174Q194 182 313 171" fill="none" stroke="#c6baa2" strokeWidth="1.5"/>
+            <path d="M89 158L303 156" stroke="#fff" strokeWidth="3"/>
+          </g>
         </g>
       </svg>
-      <span className="resume-bottle__cta">{isResumeActive ? "The essentials, opened" : "Twist open my resume ↗"}</span>
+      <span className="resume-bag__cta">{isResumeActive ? "Resume, to go ↗" : "Unfold my resume ↗"}</span>
     </button>
   );
 }
@@ -473,7 +438,7 @@ function ArtifactMediaFrame({ artifactLabel, media }: ArtifactMediaFrameProps) {
     return () => { observer.disconnect(); video.pause(); };
   }, []);
   const frameClassName =
-    "relative block h-40 overflow-hidden border-2 border-[var(--ritual-accent)] bg-white";
+    "relative block h-40 overflow-hidden border-2 border-[var(--brand-accent)] bg-white";
   const content =
     media.type === "image" ? (
       <Image
@@ -559,10 +524,10 @@ export default function Home() {
 
   useEffect(() => {
     if (!isResumeVisible) return;
+    document.querySelector<HTMLButtonElement>(".resume-zoom")?.focus({ preventScroll: true });
     const closeWithEscape = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setResumeMode("closing");
-        document.querySelector<HTMLButtonElement>(".resume-bottle")?.focus({ preventScroll: true });
       }
     };
     window.addEventListener("keydown", closeWithEscape);
@@ -577,7 +542,7 @@ export default function Home() {
 
     const topSection = topSectionRef.current;
     const promptButton = canPromptButtonRef.current;
-    const can = topSection?.querySelector(".resume-bottle");
+    const can = topSection?.querySelector(".resume-bag");
 
     if (!topSection || !promptButton || !(can instanceof HTMLElement)) {
       return;
@@ -690,8 +655,12 @@ export default function Home() {
     setResumeMode(resumeMode === "minimized" ? "open" : "opening");
   }
 
-  function finishCapMotion() {
-    setResumeMode((mode) => mode === "opening" ? "open" : mode === "closing" ? "closed" : mode);
+  function finishBagMotion() {
+    if (resumeMode === "opening") setResumeMode("open");
+    if (resumeMode === "closing") {
+      setResumeMode("closed");
+      requestAnimationFrame(() => document.querySelector<HTMLButtonElement>(".resume-bag")?.focus({ preventScroll: true }));
+    }
   }
 
   function scrollToWork() {
@@ -702,7 +671,7 @@ export default function Home() {
     }
 
     window.scrollTo({
-      behavior: "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
       top: workSection.getBoundingClientRect().top + window.scrollY - 88,
     });
   }
@@ -715,7 +684,7 @@ export default function Home() {
     }
 
     window.scrollTo({
-      behavior: "smooth",
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
       top: topSection.offsetTop,
     });
 
@@ -727,19 +696,19 @@ export default function Home() {
 
       <nav
         aria-label="Main sections"
-        className="site-nav sticky top-0 z-50 border-b-4 border-[var(--ritual-navy)] bg-white/90 px-4 py-3 shadow-[0_6px_0_var(--ritual-accent)] backdrop-blur sm:px-6"
+        className="site-nav sticky top-0 z-50 border-b-4 border-[var(--brand-red)] bg-white/90 px-4 py-3 shadow-[0_6px_0_var(--brand-accent)] backdrop-blur sm:px-6"
       >
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4">
           <a
-            className="font-mono text-xs font-black uppercase tracking-[0.22em] text-[var(--ritual-navy)]"
+            className="font-mono text-xs font-black uppercase tracking-[0.22em] text-[var(--brand-red)]"
             href="#top"
           >
-            Miles Mattina / Ritual
+            Miles Mattina / In-N-Out Burger
           </a>
           <div className="flex flex-wrap justify-end gap-2">
             {navItems.map(([label, href]) => (
               <a
-                className="border-2 border-[var(--ritual-navy)] bg-white px-3 py-1.5 text-xs font-black uppercase text-[var(--ritual-navy)] shadow-[3px_3px_0_var(--ritual-accent)] transition hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--ritual-accent)]"
+                className="border-2 border-[var(--brand-red)] bg-white px-3 py-1.5 text-xs font-black uppercase text-[var(--brand-red)] shadow-[3px_3px_0_var(--brand-accent)] transition hover:-translate-y-0.5 hover:shadow-[5px_5px_0_var(--brand-accent)]"
                 href={href}
                 key={href}
               >
@@ -751,19 +720,19 @@ export default function Home() {
       </nav>
 
       <section
-        className="ritual-hero relative mx-auto grid min-h-[calc(100vh-64px)] max-w-7xl items-center gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:py-16"
+        className="brand-hero relative mx-auto grid min-h-[calc(100vh-64px)] max-w-7xl items-center gap-10 px-4 py-10 sm:px-6 lg:grid-cols-[0.9fr_1.1fr] lg:py-16"
         id="top"
         ref={topSectionRef}
       >
         <div className="hero-copy relative z-10">
-          <p className="mb-5 inline-flex -rotate-2 border-2 border-[var(--ritual-navy)] bg-[var(--ritual-yellow)] px-3 py-1 text-xs font-black uppercase tracking-[0.24em] text-[var(--ritual-navy)] shadow-[5px_5px_0_var(--ritual-accent)]">
-            Brand Manager application
+          <p className="mb-5 inline-flex -rotate-2 border-2 border-[var(--brand-red)] bg-[var(--brand-yellow)] px-3 py-1 text-xs font-black uppercase tracking-[0.24em] text-[var(--brand-red)] shadow-[5px_5px_0_var(--brand-accent)]">
+            In-N-Out Burger application
           </p>
-          <h1 className="max-w-3xl text-6xl font-black uppercase leading-[0.84] text-[var(--ritual-navy)] sm:text-7xl lg:text-8xl">
+          <h1 className="max-w-3xl text-6xl font-black uppercase leading-[0.84] text-[var(--brand-red)] sm:text-7xl lg:text-8xl">
             Who is this guy?
           </h1>
           <p className="mt-7 max-w-2xl text-xl font-semibold leading-8 sm:text-2xl">
-            A custom hello from Miles Mattina, built for Ritual with
+            A custom hello from Miles Mattina, built for In-N-Out Burger with
             a little brand-building experience, a lot of creative follow-through,
             and a very earnest interest in the job.
           </p>
@@ -777,15 +746,15 @@ export default function Home() {
               type="button"
             >
                 {canPromptLevel === 0
-                  ? "Click the bottle"
+                  ? "Click the bag"
                   : canPromptLevel === 1
-                    ? "no, click the bottle"
-                    : "THE BOTTLE"}
+                    ? "no, click the bag"
+                    : "THE BAG"}
             </button>
             {canPromptLevel === 1 ? (
               <span
                 aria-hidden="true"
-                className="pointer-events-none text-4xl font-black text-[var(--ritual-accent)] sm:text-5xl"
+                className="pointer-events-none text-4xl font-black text-[var(--brand-accent)] sm:text-5xl"
               >
                 →
               </span>
@@ -823,15 +792,15 @@ export default function Home() {
         ) : null}
 
         <div
-          aria-label="Interactive Miles Mattina resume bottle"
-          className="bottle-stage relative min-h-[560px]"
+          aria-label="Interactive Miles Mattina resume bag"
+          className="bag-stage relative min-h-[560px]"
         >
-          <ResumeBottle
+          <ResumeBag
             isResumeActive={isResumeActive}
             isPrompting={isCanPrompting}
             openResume={openResume}
             resumeMode={resumeMode}
-            onCapMotionEnd={finishCapMotion}
+            onBagMotionEnd={finishBagMotion}
           />
         </div>
       </section>
@@ -841,15 +810,15 @@ export default function Home() {
         id="why-me"
       >
         <div>
-          <p className="font-mono text-xs font-black uppercase tracking-[0.26em] text-[var(--ritual-accent)]">
+          <p className="font-mono text-xs font-black uppercase tracking-[0.26em] text-[var(--brand-accent)]">
             pull cards
           </p>
-          <h2 className="mt-2 text-5xl font-black uppercase leading-none text-[var(--ritual-navy)] sm:text-6xl">
+          <h2 className="mt-2 text-5xl font-black uppercase leading-none text-[var(--brand-red)] sm:text-6xl">
             Why me?
           </h2>
           {cardIndex > 0 || isWhyStackComplete ? (
             <button
-              className="mt-6 border-2 border-[var(--ritual-navy)] bg-white px-4 py-2 text-xs font-black uppercase text-[var(--ritual-navy)] shadow-[4px_4px_0_var(--ritual-accent)]"
+              className="mt-6 border-2 border-[var(--brand-red)] bg-white px-4 py-2 text-xs font-black uppercase text-[var(--brand-red)] shadow-[4px_4px_0_var(--brand-accent)]"
               onClick={resetCards}
               type="button"
             >
@@ -862,12 +831,12 @@ export default function Home() {
           className="relative min-h-[470px]"
         >
           {isWhyStackComplete ? (
-            <div className="absolute inset-x-0 top-0 mx-auto flex h-80 w-[calc(100%-1.25rem)] max-w-xl flex-col justify-center gap-8 border-4 border-[var(--ritual-navy)] bg-[var(--ritual-yellow)] p-8 text-[var(--ritual-navy)] shadow-[10px_10px_0_var(--ritual-accent)] sm:w-full sm:shadow-[14px_14px_0_var(--ritual-accent)]">
+            <div className="absolute inset-x-0 top-0 mx-auto flex h-80 w-[calc(100%-1.25rem)] max-w-xl flex-col justify-center gap-8 border-4 border-[var(--brand-red)] bg-[var(--brand-yellow)] p-8 text-[var(--brand-red)] shadow-[10px_10px_0_var(--brand-accent)] sm:w-full sm:shadow-[14px_14px_0_var(--brand-accent)]">
               <h3 className="text-5xl font-black uppercase leading-[0.88] sm:text-6xl">
                 THEN LET ME PROVE IT.
               </h3>
               <button
-                className="self-start border-2 border-[var(--ritual-navy)] bg-white px-5 py-3 text-sm font-black uppercase text-[var(--ritual-navy)] shadow-[5px_5px_0_var(--ritual-accent)] transition hover:-translate-y-0.5 hover:shadow-[7px_7px_0_var(--ritual-accent)]"
+                className="self-start border-2 border-[var(--brand-red)] bg-white px-5 py-3 text-sm font-black uppercase text-[var(--brand-red)] shadow-[5px_5px_0_var(--brand-accent)] transition hover:-translate-y-0.5 hover:shadow-[7px_7px_0_var(--brand-accent)]"
                 onClick={scrollToWork}
                 type="button"
               >
@@ -880,7 +849,7 @@ export default function Home() {
                 .slice(cardIndex + 1, cardIndex + 4)
                 .map((card, offset) => (
                   <div
-                    className={`pointer-events-none absolute inset-x-0 mx-auto w-[calc(100%-1.25rem)] max-w-xl border-4 border-[var(--ritual-navy)] bg-white shadow-[8px_8px_0_rgba(21,63,143,0.2)] sm:w-full sm:shadow-[10px_10px_0_rgba(21,63,143,0.2)] h-80`}
+                    className={`pointer-events-none absolute inset-x-0 mx-auto w-[calc(100%-1.25rem)] max-w-xl border-4 border-[var(--brand-red)] bg-white shadow-[8px_8px_0_rgba(182,0,0,0.2)] sm:w-full sm:shadow-[10px_10px_0_rgba(182,0,0,0.2)] h-80`}
                     key={card.title}
                     style={{
                       top: `${24 + offset * 16}px`,
@@ -893,15 +862,15 @@ export default function Home() {
                 ))}
               <div
                 aria-live="polite"
-                className={`why-card ${isBridgeCard ? "why-card--bridge" : isSincereCard ? "why-card--sincere" : ""} absolute inset-x-0 top-0 z-10 mx-auto flex w-[calc(100%-1.25rem)] max-w-xl border-4 border-[var(--ritual-navy)] text-left shadow-[10px_10px_0_var(--ritual-accent)] transition hover:-translate-y-1 sm:w-full sm:shadow-[14px_14px_0_var(--ritual-accent)] h-80 ${
+                className={`why-card ${isBridgeCard ? "why-card--bridge" : isSincereCard ? "why-card--sincere" : ""} absolute inset-x-0 top-0 z-10 mx-auto flex w-[calc(100%-1.25rem)] max-w-xl border-4 border-[var(--brand-red)] text-left shadow-[10px_10px_0_var(--brand-accent)] transition hover:-translate-y-1 sm:w-full sm:shadow-[14px_14px_0_var(--brand-accent)] h-80 ${
                   cardSlideDirection === "next" ? "why-card--exit-next" : ""
                 } ${
                   cardSlideDirection === "prev" ? "why-card--exit-prev" : ""
                 } ${
                   isSincereCard
-                    ? "flex-col justify-center gap-7 bg-[var(--ritual-navy)] p-9 text-white sm:p-10"
+                    ? "flex-col justify-center gap-7 bg-[var(--brand-red)] p-9 text-white sm:p-10"
                     : isBridgeCard
-                      ? "items-center justify-center bg-[var(--ritual-yellow)] p-9 text-center text-[var(--ritual-navy)] sm:p-10"
+                      ? "items-center justify-center bg-[var(--brand-yellow)] p-9 text-center text-[var(--brand-red)] sm:p-10"
                       : "flex-col justify-between bg-white p-6 text-[var(--ink)] sm:p-7"
                 }`}
               >
@@ -939,7 +908,7 @@ export default function Home() {
               >
                 <button
                   aria-label="Previous reason"
-                  className="grid size-12 place-items-center border-2 border-[var(--ritual-navy)] bg-white text-3xl font-black leading-none text-[var(--ritual-navy)] shadow-[4px_4px_0_var(--ritual-accent)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0"
+                  className="grid size-12 place-items-center border-2 border-[var(--brand-red)] bg-white text-3xl font-black leading-none text-[var(--brand-red)] shadow-[4px_4px_0_var(--brand-accent)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-y-0"
                   disabled={cardIndex === 0 || isCardSliding}
                   onClick={() => moveCard("prev")}
                   type="button"
@@ -948,7 +917,7 @@ export default function Home() {
                 </button>
                 <button
                   aria-label="Next reason"
-                  className="grid size-12 place-items-center border-2 border-[var(--ritual-navy)] bg-[var(--ritual-navy)] text-3xl font-black leading-none text-white shadow-[4px_4px_0_var(--ritual-accent)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
+                  className="grid size-12 place-items-center border-2 border-[var(--brand-red)] bg-[var(--brand-red)] text-3xl font-black leading-none text-white shadow-[4px_4px_0_var(--brand-accent)] transition hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-60"
                   disabled={isCardSliding}
                   onClick={advanceCard}
                   type="button"
@@ -966,10 +935,10 @@ export default function Home() {
         id="field-notes"
       >
         <div className="max-w-3xl">
-          <p className="font-mono text-xs font-black uppercase tracking-[0.26em] text-[var(--ritual-accent)]">
+          <p className="font-mono text-xs font-black uppercase tracking-[0.26em] text-[var(--brand-accent)]">
             The receipts
           </p>
-          <h2 className="mt-2 text-5xl font-black uppercase leading-none text-[var(--ritual-navy)] sm:text-6xl">
+          <h2 className="mt-2 text-5xl font-black uppercase leading-none text-[var(--brand-red)] sm:text-6xl">
             Here&apos;s what I&apos;ve been up to.
           </h2>
           <p className="mt-5 text-lg font-semibold leading-7">
@@ -986,7 +955,7 @@ export default function Home() {
               key={note.title}
             >
               <div
-                className={`project-intro relative border-4 border-white p-6 outline outline-4 outline-[var(--ritual-navy)] ${
+                className={`project-intro relative border-4 border-white p-6 outline outline-4 outline-[var(--brand-red)] ${
                   note.title === "Buoy Bird" || note.title === "South of Sober"
                     ? "overflow-hidden pr-28 sm:pr-36"
                     : ""
@@ -1003,7 +972,7 @@ export default function Home() {
                 </p>
                 {note.title === "Buoy Bird" ? (
                   <a
-                    className="mt-7 block border-4 border-white bg-[var(--ritual-accent)] p-5 text-white shadow-[8px_8px_0_rgba(0,0,0,0.36)] transition hover:-translate-y-0.5"
+                    className="mt-7 block border-4 border-white bg-[var(--brand-accent)] p-5 text-white shadow-[8px_8px_0_rgba(0,0,0,0.36)] transition hover:-translate-y-0.5"
                     href="https://www.instagram.com/buoybirdofficial/"
                     rel="noreferrer"
                     target="_blank"
@@ -1014,7 +983,7 @@ export default function Home() {
                     <span className="mt-3 block text-3xl font-black uppercase leading-[0.9]">
                       Watch the pinned Cinema by the Shore preview videos.
                     </span>
-                    <span className="mt-4 inline-block border-2 border-white bg-white px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-[var(--ritual-navy)] shadow-[4px_4px_0_rgba(0,0,0,0.28)]">
+                    <span className="mt-4 inline-block border-2 border-white bg-white px-3 py-2 text-xs font-black uppercase tracking-[0.14em] text-[var(--brand-red)] shadow-[4px_4px_0_rgba(0,0,0,0.28)]">
                       @buoybirdofficial on Instagram
                     </span>
                   </a>
@@ -1022,7 +991,7 @@ export default function Home() {
                 <div className="mt-7 flex flex-wrap gap-3">
                   {note.links.map((link) => (
                     <a
-                      className="border-2 border-white bg-white px-4 py-2 text-xs font-black uppercase text-[var(--ritual-navy)] shadow-[4px_4px_0_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5"
+                      className="border-2 border-white bg-white px-4 py-2 text-xs font-black uppercase text-[var(--brand-red)] shadow-[4px_4px_0_rgba(0,0,0,0.3)] transition hover:-translate-y-0.5"
                       href={link.href}
                       key={link.href}
                       rel="noreferrer"
@@ -1083,7 +1052,7 @@ export default function Home() {
 
                   return (
                     <div
-                      className={`artifact-card min-h-56 border-4 border-[var(--ritual-navy)] bg-white p-3 shadow-[8px_8px_0_rgba(196,32,50,0.25)] ${
+                      className={`artifact-card min-h-56 border-4 border-[var(--brand-red)] bg-white p-3 shadow-[8px_8px_0_rgba(196,32,50,0.25)] ${
                         (artifactIndex + index) % 2 === 0
                           ? "-rotate-1"
                           : "rotate-1"
@@ -1096,13 +1065,13 @@ export default function Home() {
                           media={media}
                         />
                       ) : (
-                        <div className="flex h-40 items-center justify-center border-2 border-dashed border-[var(--ritual-accent)] bg-[linear-gradient(135deg,#fff_0_32%,#eef3ff_32%_50%,#fff_50%_70%,#ffe8e8_70%)] text-center">
-                          <p className="max-w-32 font-mono text-xs font-black uppercase tracking-[0.16em] text-[var(--ritual-navy)]">
+                        <div className="flex h-40 items-center justify-center border-2 border-dashed border-[var(--brand-accent)] bg-[linear-gradient(135deg,#fff_0_32%,#fff4cb_32%_50%,#fff_50%_70%,#ffe8e8_70%)] text-center">
+                          <p className="max-w-32 font-mono text-xs font-black uppercase tracking-[0.16em] text-[var(--brand-red)]">
                             {artifact.label}
                           </p>
                         </div>
                       )}
-                      <p className="mt-3 text-sm font-black uppercase text-[var(--ritual-accent)]">
+                      <p className="mt-3 text-sm font-black uppercase text-[var(--brand-accent)]">
                         {artifact.label}
                       </p>
                       <p className="mt-2 text-sm font-bold leading-5 text-[var(--ink)]">
@@ -1121,24 +1090,24 @@ export default function Home() {
         className="mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:py-24"
         id="talk"
       >
-        <div className="talk-card max-w-4xl border-4 border-[var(--ritual-navy)] bg-white p-7 shadow-[14px_14px_0_var(--ritual-accent)] sm:p-10">
-          <p className="font-mono text-xs font-black uppercase tracking-[0.26em] text-[var(--ritual-accent)]">
+        <div className="talk-card max-w-4xl border-4 border-[var(--brand-red)] bg-white p-7 shadow-[14px_14px_0_var(--brand-accent)] sm:p-10">
+          <p className="font-mono text-xs font-black uppercase tracking-[0.26em] text-[var(--brand-accent)]">
             closing tab
           </p>
-          <h2 className="mt-6 text-6xl font-black uppercase leading-[0.86] text-[var(--ritual-navy)] sm:text-7xl">
+          <h2 className="mt-6 text-6xl font-black uppercase leading-[0.86] text-[var(--brand-red)] sm:text-7xl">
             We should probably talk.
           </h2>
           <p className="mt-6 max-w-2xl text-xl font-semibold leading-8">
             If you want the official version, it&apos;s still hiding up top in
-            the bottle.
+            the bag.
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
             <button
-              className="border-2 border-[var(--ritual-navy)] bg-[var(--ritual-yellow)] px-5 py-3 text-sm font-black uppercase text-[var(--ritual-navy)] shadow-[5px_5px_0_var(--ritual-accent)] transition hover:-translate-y-0.5 hover:shadow-[7px_7px_0_var(--ritual-accent)]"
+              className="border-2 border-[var(--brand-red)] bg-[var(--brand-yellow)] px-5 py-3 text-sm font-black uppercase text-[var(--brand-red)] shadow-[5px_5px_0_var(--brand-accent)] transition hover:-translate-y-0.5 hover:shadow-[7px_7px_0_var(--brand-accent)]"
               onClick={scrollToCan}
               type="button"
             >
-              Back to the bottle
+              Back to the bag
             </button>
             <a className="contact-link" href="mailto:milesmattina@gmail.com">Email Miles ↗</a>
             <a className="contact-link" href="https://www.linkedin.com/in/milesmattina" target="_blank" rel="noreferrer">LinkedIn ↗</a>
@@ -1146,11 +1115,11 @@ export default function Home() {
         </div>
       </section>
 
-      <footer className="portfolio-footer">Miles Mattina · An independent application for Ritual.</footer>
+      <footer className="portfolio-footer">Miles Mattina · An independent application for In-N-Out Burger.</footer>
 
       {resumeMode === "minimized" ? (
         <button
-          className="fixed bottom-4 right-4 z-[70] border-4 border-[var(--ritual-navy)] bg-[var(--ritual-yellow)] px-5 py-4 text-left text-sm font-black uppercase text-[var(--ritual-navy)] shadow-[8px_8px_0_var(--ritual-accent)] transition hover:-translate-y-1"
+          className="fixed bottom-4 right-4 z-[70] border-4 border-[var(--brand-red)] bg-[var(--brand-yellow)] px-5 py-4 text-left text-sm font-black uppercase text-[var(--brand-red)] shadow-[8px_8px_0_var(--brand-accent)] transition hover:-translate-y-1"
           onClick={openResume}
           type="button"
         >
@@ -1161,17 +1130,19 @@ export default function Home() {
 
       {isResumeVisible ? (
         <aside
+          id="resume-viewer"
+          data-mode={resumeMode}
           aria-label="Miles Mattina resume viewer"
-          className={`fixed z-[80] flex flex-col border-4 border-[var(--ritual-navy)] bg-white shadow-[18px_18px_0_var(--ritual-accent)] transition-all duration-500 ${
+          className={`fixed z-[80] flex flex-col border-4 border-[var(--brand-red)] bg-white shadow-[18px_18px_0_var(--brand-accent)] transition-all duration-500 ${
             resumeMode === "full"
               ? "inset-3 sm:inset-5"
               : "bottom-4 right-4 top-20 w-[calc(100vw-2rem)] lg:w-[52vw]"
           }`}
         >
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b-4 border-[var(--ritual-navy)] bg-[var(--ritual-navy)] px-4 py-3 text-white">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b-4 border-[var(--brand-red)] bg-[var(--brand-red)] px-4 py-3 text-white">
             <div>
-              <p className="font-mono text-[11px] font-black uppercase tracking-[0.22em] text-[var(--ritual-yellow)]">
-                resume bottle contents
+              <p className="font-mono text-[11px] font-black uppercase tracking-[0.22em] text-[var(--brand-yellow)]">
+                resume bag contents
               </p>
               <h3 className="text-2xl font-black uppercase leading-none">
                 Miles Mattina Resume
@@ -1181,7 +1152,7 @@ export default function Home() {
               <a className="resume-download" href="/Miles_Mattina_Resume.pdf" download>Download PDF</a>
               <button type="button" className="resume-zoom" onClick={() => setIsResumeZoomed((zoomed) => !zoomed)}>{isResumeZoomed ? "Fit page" : "Zoom in"}</button>
               <button
-                className="border-2 border-white bg-white px-3 py-2 text-xs font-black uppercase text-[var(--ritual-navy)] shadow-[3px_3px_0_var(--ritual-accent)]"
+                className="border-2 border-white bg-white px-3 py-2 text-xs font-black uppercase text-[var(--brand-red)] shadow-[3px_3px_0_var(--brand-accent)]"
                 onClick={() =>
                   setResumeMode((mode) => (mode === "full" ? "open" : "full"))
                 }
@@ -1190,14 +1161,14 @@ export default function Home() {
                 {resumeMode === "full" ? "Half screen" : "Full screen"}
               </button>
               <button
-                className="border-2 border-white bg-[var(--ritual-yellow)] px-3 py-2 text-xs font-black uppercase text-[var(--ritual-navy)] shadow-[3px_3px_0_var(--ritual-accent)]"
+                className="border-2 border-white bg-[var(--brand-yellow)] px-3 py-2 text-xs font-black uppercase text-[var(--brand-red)] shadow-[3px_3px_0_var(--brand-accent)]"
                 onClick={() => setResumeMode("minimized")}
                 type="button"
               >
                 Minimize
               </button>
               <button
-                className="border-2 border-white bg-[var(--ritual-accent)] px-3 py-2 text-xs font-black uppercase text-white shadow-[3px_3px_0_var(--ritual-yellow)]"
+                className="border-2 border-white bg-[var(--brand-accent)] px-3 py-2 text-xs font-black uppercase text-white shadow-[3px_3px_0_var(--brand-yellow)]"
                 onClick={() => setResumeMode("closing")}
                 type="button"
               >
