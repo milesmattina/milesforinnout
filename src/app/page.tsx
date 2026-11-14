@@ -502,6 +502,7 @@ export default function Home() {
   const [isWhyStackComplete, setIsWhyStackComplete] = useState(false);
   const [resumeMode, setResumeMode] = useState<ResumeMode>("closed");
   const [isResumeZoomed, setIsResumeZoomed] = useState(false);
+  const previousResumeMode = useRef<ResumeMode>("closed");
   const [canArrowGeometry, setCanArrowGeometry] =
     useState<CanArrowGeometry | null>(null);
   const canPromptTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -521,6 +522,13 @@ export default function Home() {
     if (cardSlideTimerRef.current) clearTimeout(cardSlideTimerRef.current);
     if (canPromptTimerRef.current) clearTimeout(canPromptTimerRef.current);
   }, []);
+
+  useEffect(() => {
+    if (resumeMode === "closed" && previousResumeMode.current === "closing") {
+      document.querySelector<HTMLButtonElement>(".resume-bag")?.focus({ preventScroll: true });
+    }
+    previousResumeMode.current = resumeMode;
+  }, [resumeMode]);
 
   useEffect(() => {
     if (!isResumeVisible) return;
@@ -659,7 +667,6 @@ export default function Home() {
     if (resumeMode === "opening") setResumeMode("open");
     if (resumeMode === "closing") {
       setResumeMode("closed");
-      requestAnimationFrame(() => document.querySelector<HTMLButtonElement>(".resume-bag")?.focus({ preventScroll: true }));
     }
   }
 
